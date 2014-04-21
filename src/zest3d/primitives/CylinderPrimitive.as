@@ -21,12 +21,12 @@ package zest3d.primitives
 	public class CylinderPrimitive extends Primitive 
 	{
 		
-		public function CylinderPrimitive( effect:VisualEffectInstance, hasTexCoords:Boolean = true, hasNormals: Boolean = true, axisSamples:int = 4, radialSamples:int = 16,  radius:Number = 1, height:Number = 2, open:Boolean = false, bothSides:Boolean = false, isStatic:Boolean = true, inside:Boolean = false, transform:Transform = null ) 
+		public function CylinderPrimitive( effect:VisualEffectInstance, hasTexCoords:Boolean = true, hasNormals: Boolean = true, hasBinormals:Boolean = false, hasTangents:Boolean = false, axisSamples:int = 4, radialSamples:int = 16,  radius:Number = 1, height:Number = 2, open:Boolean = false, bothSides:Boolean = false, isStatic:Boolean = true, inside:Boolean = false, transform:Transform = null ) 
 		{
 			this.effect = effect;
 			this.bothSides = bothSides;
 			
-			var vFormat:VertexFormat = this.generateVertexFormat( hasTexCoords, hasNormals );
+			var vFormat:VertexFormat = generateVertexFormat( hasTexCoords, hasNormals, hasBinormals, hasTangents );
 			var primitive:TriMesh = new StandardMesh( vFormat, isStatic, inside, transform ).cylinder( axisSamples, radialSamples, radius, height, open );
 			
 			super( vFormat, primitive.vertexBuffer, primitive.indexBuffer );

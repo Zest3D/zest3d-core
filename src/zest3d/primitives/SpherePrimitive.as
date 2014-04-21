@@ -37,7 +37,7 @@ package zest3d.primitives
 			this.effect = effect;
 			this.bothSides = bothSides;
 			
-			var vFormat:VertexFormat = generateVertexFormat( hasTexCoords, hasNormals, hasTangents, hasBinormals );
+			var vFormat:VertexFormat = generateVertexFormat( hasTexCoords, hasNormals, hasBinormals, hasTangents );
 			var primitive:TriMesh = new StandardMesh( vFormat, isStatic, inside, transform ).sphere( zSamples, radialSamples, radius );
 			
 			super( vFormat, primitive.vertexBuffer, primitive.indexBuffer );
