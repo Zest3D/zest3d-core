@@ -36,7 +36,7 @@ package zest3d.renderers.agal
 		
 		public function AGALSamplerState() 
 		{
-			// TODO ommit or implement
+			// TODO implement setSamplerAt....
 			// trace( "* querying the current sampler state (not implemented)" );
 		}
 		

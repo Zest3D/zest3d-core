@@ -47,7 +47,7 @@ package zest3d.resources
 			
 			if ( hasDepthStencil )
 			{
-				_depthStencilTexture = new TextureRectangle( TextureFormat.RGBA8888, width, height,BufferUsageType.DEPTHSTENCIL );
+				_depthStencilTexture = new TextureRectangle( TextureFormat.RGBA8888, width, height, BufferUsageType.DEPTHSTENCIL );
 			}
 		}
 		

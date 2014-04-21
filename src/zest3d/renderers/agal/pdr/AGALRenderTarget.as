@@ -177,7 +177,6 @@ package zest3d.renderers.agal.pdr
 		
 		public function readColor( i: int, renderer: Renderer, texture: Texture2D ): void
 		{
-			trace( "readColor called" );
 			if ( i < 0 || i >= _numTargets )
 			{
 				Assert.isTrue( false, "Invalid number of targets." );

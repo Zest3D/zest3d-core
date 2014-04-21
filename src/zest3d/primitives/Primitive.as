@@ -30,7 +30,7 @@ package zest3d.primitives
 			super( vFormat, vertexBuffer, indexBuffer );
 		}
 		
-		protected function generateVertexFormat( hasTexCoords:Boolean, hasNormals:Boolean ):VertexFormat
+		protected function generateVertexFormat( hasTexCoords:Boolean  = false, hasNormals:Boolean  = false, hasBinormals:Boolean = false, hasTangents:Boolean  = false ):VertexFormat
 		{
 			var numAttributes:Number = 0;
 			var index:Number = 0;
@@ -38,11 +38,20 @@ package zest3d.primitives
 			var stride:Number = 0;
 			
 			numAttributes++;
+			
 			if ( hasTexCoords )
 			{
 				numAttributes++;
 			}
 			if ( hasNormals)
+			{
+				numAttributes++;
+			}
+			if ( hasBinormals )
+			{
+				numAttributes++;
+			}
+			if ( hasTangents )
 			{
 				numAttributes++;
 			}
@@ -72,6 +81,25 @@ package zest3d.primitives
 				stride += 12;
 			}
 			
+			// binormals
+			if ( hasBinormals )
+			{
+				vFormat.setAttribute( index, 0, offset, AttributeUsageType.BINORMAL, AttributeType.FLOAT3, 0 );
+				offset += 3*4;
+				index++;
+				stride += 12;
+			}
+			
+			
+			// tangents
+			if ( hasTangents )
+			{
+				vFormat.setAttribute( index, 0, offset, AttributeUsageType.TANGENT, AttributeType.FLOAT3, 0 );
+				offset += 3*4;
+				index++;
+				stride += 12;
+			}
+			
 			vFormat.stride = stride;
 			
 			return vFormat;
@@ -85,7 +113,7 @@ package zest3d.primitives
 			{
 				for ( i = 0; i < effect.numPasses; ++i )
 				{
-					cullState = effect.getPass( 0 ).cullState;
+					cullState = effect.getPass( i ).cullState;
 					cullState.enabled = false;
 				}
 			}
@@ -93,7 +121,7 @@ package zest3d.primitives
 			{
 				for ( i = 0; i < effect.numPasses; ++i )
 				{
-					cullState = effect.getPass( 0 ).cullState;
+					cullState = effect.getPass( i ).cullState;
 					cullState.enabled = true;
 				}
 			}

@@ -29,7 +29,7 @@ package zest3d.scenegraph
 			super( PrimitiveType.TRISTRIP, vFormat, vBuffer, iBuffer );
 			Assert.isTrue( _iBuffer.numElements >= _vBuffer.numElements, "Not enough elements for the index buffer." );
 			
-			//TODO consider a help that can atuo-generate strip indices
+			//TODO consider a help that can auto-generate strip indices
 			/*
 			var numVertices: int = _vBuffer.numElements;
 			var iBuffer: IndexBuffer = new IndexBuffer( numVertices, .....

@@ -411,7 +411,7 @@ package zest3d.datatypes
 					inverse.uniformScale = invScaleN;
 					
 					//TODO check that this is completely inverted or -invScaleN
-					invTrn = invRot.multiplyAPoint( _translate ).scale( -invScaleN )//.negate();
+					invTrn = invRot.multiplyAPoint( _translate ).scale( invScaleN ).negate();
 				}
 				else
 				{

@@ -43,7 +43,6 @@ package zest3d.renderers.agal.pdr
 			_context = _renderer.data.context;
 			
 			var programText: String = pShader.getProgram( PixelShader.profile.index );
-			trace( "Pixel Shader >>>>> " + programText );
 			var assembler: AGALMiniAssembler = new AGALMiniAssembler( false );
 			
 			

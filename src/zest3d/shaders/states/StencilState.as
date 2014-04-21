@@ -46,10 +46,6 @@ package zest3d.shaders.states
 		
 		public function dispose(): void
 		{
-			compare = null;
-			onFail = null;
-			onZFail = null;
-			onZPass = null;
 		}
 		
 	}

@@ -37,15 +37,15 @@ package zest3d.scenegraph
 		
 		public function Culler( camera: Camera = null ) 
 		{
-			_camera ||= camera;
+			_camera = camera;
 			_frustum = [];
 			
 			_planeQuantity = 6;
 			_plane = [];
 			
-			for ( var i: int = 0; i < _planeQuantity; i++ )
+			for ( var i: int = 0; i < _planeQuantity; ++i )
 			{
-				_plane[ i ] = new HPlane( new AVector() );
+				_plane[ i ] = new HPlane( AVector.ZERO );
 			}
 			
 			_visibleSet = new VisibleSet();
@@ -53,7 +53,11 @@ package zest3d.scenegraph
 		
 		public function dispose(): void
 		{
-			// TODO Culler::dispose()
+			_visibleSet.dispose();
+			_visibleSet = null;
+			
+			_frustum.length = 0;
+			_frustum = null;
 		}
 		
 		[Inline]

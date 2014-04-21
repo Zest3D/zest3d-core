@@ -21,12 +21,23 @@ package zest3d.primitives
 	public class SpherePrimitive extends Primitive 
 	{
 		
-		public function SpherePrimitive( effect:VisualEffectInstance, hasTexCoords:Boolean = true, hasNormals: Boolean = true, zSamples:int = 16, radialSamples:int = 16, radius:Number = 1, bothSides:Boolean = false, isStatic:Boolean = true, inside:Boolean = false, transform:Transform = null ) 
+		public function SpherePrimitive( effect:VisualEffectInstance,
+										 hasTexCoords:Boolean = true,
+										 hasNormals: Boolean = true,
+										 hasBinormals:Boolean = false,
+										 hasTangents:Boolean = false,
+										 zSamples:int = 64,
+										 radialSamples:int = 64,
+										 radius:Number = 1,
+										 bothSides:Boolean = false,
+										 isStatic:Boolean = true,
+										 inside:Boolean = false,
+										 transform:Transform = null )
 		{
 			this.effect = effect;
 			this.bothSides = bothSides;
 			
-			var vFormat:VertexFormat = this.generateVertexFormat( hasTexCoords, hasNormals );
+			var vFormat:VertexFormat = generateVertexFormat( hasTexCoords, hasNormals, hasTangents, hasBinormals );
 			var primitive:TriMesh = new StandardMesh( vFormat, isStatic, inside, transform ).sphere( zSamples, radialSamples, radius );
 			
 			super( vFormat, primitive.vertexBuffer, primitive.indexBuffer );

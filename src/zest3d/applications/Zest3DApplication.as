@@ -1,6 +1,6 @@
 /**
  * Plugin.IO - http://www.plugin.io
- * Copyright (c) 2013
+ * Copyright (c) 2013-2014
  *
  * Geometric Tools, LLC
  * Copyright (c) 1998-2012
@@ -14,6 +14,7 @@ package zest3d.applications
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
 	import flash.utils.getTimer;
 	import io.plugin.core.graphics.Color;
 	import io.plugin.core.interfaces.IDisposable;
@@ -23,6 +24,9 @@ package zest3d.applications
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Culler;
 	import zest3d.scenegraph.Node;
+	import zest3d.scenegraph.Picker;
+	import zest3d.scenegraph.PickRecord;
+	import zest3d.scenegraph.Spatial;
 	
 	/**
 	 * ...
@@ -36,11 +40,41 @@ package zest3d.applications
 		
 		protected var _culler: Culler;
 		
+		protected var _picker:Picker;
+		protected var _pickOrigin:APoint;
+		protected var _pickDirection:AVector;
+		
+		private var _tf:TextField;
+		
 		public function Zest3DApplication( ) 
 		{
 			super( new Color( 0.3, 0.6, 0.9, 1 ) );
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
+			
+			_picker = new Picker();
+			_pickOrigin = new APoint();
+			_pickDirection = new AVector();
+			
+			_tf = new TextField();
+			_tf.textColor = 0xFFFFFF;
+			_tf.width = 1024;
+			_tf.height = 640;
+			_tf.selectable = false;
+			addChild( _tf );
+		}
+		
+		override public function dispose():void 
+		{
+			_picker.dispose();
+			_pickOrigin.dispose();
+			_pickDirection.dispose();
+			
+			_picker = null;
+			_pickOrigin = null;
+			_pickDirection = null;
+			
+			super.dispose();
 		}
 		
 		private function onMouseWheel(e:MouseEvent):void
@@ -74,7 +108,9 @@ package zest3d.applications
 			
 			_camera.setFrame( camPosition, camDVector, camUVector, camRVector );
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel );
+			
 			_scene = new Node();
+			_scene.name = "scene";
 			
 			_culler = new Culler( _camera );
 			_culler.computeVisibleSet( _scene );
@@ -167,11 +203,6 @@ package zest3d.applications
 			// hook
 		}
 		
-		override public function dispose(): void 
-		{
-			super.dispose();
-		}
-		
 		public function get scene():Node 
 		{
 			return _scene;
@@ -195,6 +226,51 @@ package zest3d.applications
 		public function set camera( camera:Camera ):void
 		{
 			_camera = camera;
+		}
+		
+		override protected function onMouseDown(e:MouseEvent):Boolean 
+		{
+			// TODO add granular pick levels
+			/*
+			var x:Number = e.localX;
+			var y:Number = e.localY;
+			_height = renderer.height;
+			
+			var viewport:Array = renderer.getViewport();
+			var time:uint = getTimer();
+			
+			if ( _renderer.getPickRay( x, _height - 1 - y, _pickOrigin, _pickDirection ) )
+			{
+				_picker.execute( scene, _pickOrigin, _pickDirection, 0, Number.MAX_VALUE);
+				
+				if (_picker.records.length > 0)
+				{
+					var record:PickRecord = _picker.closestNonNegative;
+					var object:Spatial = record.intersected;
+					
+					_tf.text = "Pick Records: " + _picker.records.length + "\nx: " + x + "\nheight: " + _height + "\norigin: " + _pickOrigin + "\ndirection: " + _pickDirection;
+					
+					
+					for ( var i:int = 0; i < _picker.records.length; ++i )
+					{
+						_tf.appendText( "\n" );
+						_tf.appendText( "\n=== Pick record " + i + " ===" );
+						_tf.appendText( "\nRay t distance: " + _picker.records[i].t );
+						_tf.appendText( "\nMesh polygon ID: " + _picker.records[i].triangle );
+						_tf.appendText( "\nBarycentric coords: " + _picker.records[i].bary );
+						_tf.appendText( "\nIntersected Mesh: " + _picker.records[i].intersected.name );
+						
+						_tf.appendText( "\n" );
+					}
+				}
+				else
+				{
+					_tf.text = "Pick Records: 0\nx: " + x + "\nheight: " + (_height - 1) + "\norigin: " + _pickOrigin + "\ndirection: " + _pickDirection;
+				}
+				_tf.appendText( "\nTotal Time ms: " + (getTimer() - time) );
+			}
+			*/
+			return super.onMouseDown(e);
 		}
 	}
 }

@@ -56,13 +56,15 @@ package zest3d.scenegraph
 			}
 			
 			child.parent = this;
+			
+			var numChild:int = numChildren;
 			_child.push( child );
-			return numChildren;
+			return numChild;
 		}
 		
 		public function removeChild( child: Spatial ): int
 		{
-			for ( var i: int = 0; i < numChildren; i++ )
+			for ( var i: int = 0; i < numChildren; ++i )
 			{
 				if ( _child[ i ] == child )
 				{
@@ -75,7 +77,7 @@ package zest3d.scenegraph
 		
 		public function removeChildAt( index: int ): Spatial
 		{
-			if ( 0 <= index && index < _child.length )
+			if ( 0 <= index && index < numChildren )
 			{
 				var child: Spatial = _child[ index ];
 				if ( child )
@@ -86,7 +88,7 @@ package zest3d.scenegraph
 				}
 				return child;
 			}
-			throw new RangeError( " index does not exist in the child list" );
+			throw new RangeError( "index does not exist in the child list" );
 		}
 		
 		public function addChildAt( index: int, child: Spatial ): Spatial
@@ -110,7 +112,7 @@ package zest3d.scenegraph
 		
 		public function getChildAt( index: int ): Spatial
 		{
-			if ( 0 <= index && index < _child.length )
+			if ( 0 <= index && index < numChildren )
 			{
 				return _child[ index ];
 			}
@@ -162,7 +164,6 @@ package zest3d.scenegraph
 				return found;
 			}
 			
-			var numChildren: int = _child.length;
 			for ( var i: int = 0; i < numChildren; ++i )
 			{
 				//PLUGIN_GET_OBJECT_BY_NAME(_child[ i ], name, found );
@@ -182,7 +183,6 @@ package zest3d.scenegraph
 		{
 			super.getAllObjectsByName(name, objects);
 			
-			var numChildren: int = _child.length;
 			for ( var i: int = 0; i < numChildren; ++i )
 			{
 				PLUGIN_GET_ALL_OBJECTS_BY_NAME( _child[i], name, objects );

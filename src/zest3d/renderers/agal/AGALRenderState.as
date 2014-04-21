@@ -84,8 +84,6 @@ package zest3d.renderers.agal
 		public function initialize( alphaState:AlphaState, cullState: CullState, depthState:DepthState,
 								offsetState: OffsetState, stencilState: StencilState, wireState: WireState ): void
 		{
-			trace( "We are now setting up all the states in the renderstate" );
-			
 			// alpha state
 			_alphaBlendEnabled = alphaState.blendEnabled;
 			_alphaSrcBlend = AGALMapping.alphaSrcBlend[ alphaState.srcBlend.index ];

@@ -1,6 +1,6 @@
 /**
  * Plugin.IO - http://www.plugin.io
- * Copyright (c) 2013
+ * Copyright (c) 2013-2014
  *
  * Geometric Tools, LLC
  * Copyright (c) 1998-2012
@@ -106,9 +106,16 @@ package zest3d.applications
 			
 		}
 		
+		private var count:int;
 		protected function onEnterFrame( e: Event ): void
 		{
 			onIdle();
+			/*
+			if ( count > 0 )
+			{
+				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
+			}
+			count++;*/
 		}
 		
 		override public function onInitialize():Boolean 

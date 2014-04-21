@@ -20,13 +20,11 @@ package zest3d.scenegraph
 	public class VisibleSet implements IDisposable
 	{
 		
-		private var _numVisible: int;
 		private var _visible: Vector.<Spatial>;
 		
 		public function VisibleSet() 
 		{
 			_visible = new Vector.<Spatial>();
-			_numVisible = 0;
 		}
 		
 		public function dispose(): void
@@ -42,7 +40,7 @@ package zest3d.scenegraph
 		[Inline]
 		public final function get numVisible(): int
 		{
-			return _numVisible;
+			return _visible.length;
 		}
 		
 		[Inline]
@@ -54,14 +52,13 @@ package zest3d.scenegraph
 		[Inline]
 		public final function getVisibleAt( index: int ): Spatial
 		{
-			Assert.isTrue( 0 <= index && index < _numVisible, "Invalid index to GetVisible." );
+			Assert.isTrue( 0 <= index && index < numVisible, "Invalid index to GetVisible." );
 			return _visible[ index ];
 		}
 		
 		public function insert( visible: Spatial ): void
 		{
-			_visible.push( visible )
-			++_numVisible;
+			_visible.push( visible );
 		}
 		
 		[inline]
@@ -74,7 +71,6 @@ package zest3d.scenegraph
 			}
 			*/
 			_visible.length = 0;
-			_numVisible = 0;
 		}
 		
 	}

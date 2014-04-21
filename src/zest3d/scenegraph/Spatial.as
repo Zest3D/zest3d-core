@@ -66,7 +66,6 @@ package zest3d.scenegraph
 		protected var _scaleNeedsUpdate: Boolean;
 		
 		// scale ===========================
-		
 		public function set scaleUniform( value: Number ): void
 		{
 			_scale.set( value, value, value );
@@ -101,7 +100,6 @@ package zest3d.scenegraph
 		
 		
 		// rotation ////////////////////////////////////////////////////////////
-		
 		public function set rotationX( radians: Number ): void
 		{
 			_rotationX = radians;
@@ -143,12 +141,12 @@ package zest3d.scenegraph
 			rotationX = radiansX;
 			rotationY = radiansY;
 			rotationZ = radiansZ;
+			_rotationNeedsUpdate = true;
 		}
 		////////////////////////////////////////////////////////////////////////
 		
 		
 		// translation /////////////////////////////////////////////////////////
-		
 		public function set position( p:APoint ):void
 		{
 			x = p.x;
@@ -202,7 +200,6 @@ package zest3d.scenegraph
 		{
 			return _translate.z;
 		}
-		
 		////////////////////////////////////////////////////////////////////////
 		
 		

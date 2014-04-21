@@ -23,7 +23,6 @@ package zest3d.controllers
 	public class ControlledObject extends PluginObject implements IDisposable
 	{
 		
-		private var _numControllers: int;
 		private var _controllers: Vector.<Controller>;
 		
 		public function ControlledObject()
@@ -33,29 +32,26 @@ package zest3d.controllers
 				throw new AbstractClassError();
 			}
 			
-			_numControllers = 0;
-			//_controllers = [];
 			_controllers = new Vector.<Controller>();
-			
 		}
 		
 		
 		public function dispose(): void
 		{
-			//removeAllControllers();
+			removeAllControllers();
 			_controllers = null;
 		}
 		
 		[Inline]
 		public final function get numControllers(): int
 		{
-			return _numControllers;
+			return _controllers.length;
 		}
 		
 		[Inline]
 		public final function getControllerAt( index: int ): Controller
 		{
-			if ( 0 <= index && index < _numControllers )
+			if ( 0 <= index && index < numControllers )
 			{
 				return _controllers[ index ];
 			}
@@ -83,7 +79,6 @@ package zest3d.controllers
 			
 			controller.object = this;
 			_controllers.push( controller );
-			_numControllers++;
 		}
 		
 		public function removeController( controller: Controller ): void
@@ -97,26 +92,23 @@ package zest3d.controllers
 			
 			//TODO optimize
 			_controllers.splice( pos, 1 );
-			_numControllers--;
-			
 		}
 		
 		public function removeAllControllers(): void
 		{
 			var i: int;
-			for ( i = 0; i < _numControllers; i++ )
+			for ( i = 0; i < numControllers; ++i )
 			{
 				_controllers[ i ].object = null;
 			}
 			_controllers.length = 0;
-			_numControllers = 0;
 		}
 		
 		public function updateControllers( applicationTime: Number ): Boolean
 		{
 			var someoneUpdate: Boolean = false;
 			var i:int;
-			for ( i = 0; i < _numControllers; i++ )
+			for ( i = 0; i < numControllers; ++i )
 			{
 				if ( _controllers[ i ].update( applicationTime ) )
 				{
@@ -134,7 +126,7 @@ package zest3d.controllers
 			{
 				return found;
 			}
-			for ( var i: int = 0; i < _numControllers; ++i )
+			for ( var i: int = 0; i < numControllers; ++i )
 			{
 				//PLUGIN_GET_OBJECT_BY_NAME( _controllers[ i ], name, found )
 				if (_controllers[ i ])
@@ -153,7 +145,7 @@ package zest3d.controllers
 		{
 			super.getAllObjectsByName(name, objects);
 			
-			for ( var i: int = 0; i < _numControllers; ++i )
+			for ( var i: int = 0; i < numControllers; ++i )
 			{
 				PLUGIN_GET_ALL_OBJECTS_BY_NAME( _controllers[i], name, objects );
 			}

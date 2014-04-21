@@ -147,7 +147,7 @@ package zest3d.datatypes
 			var diff1: Number = 0;
 			var diff2: Number = 0;
 			
-			var radiusSqr: Number;
+			var radiusSqr: Number = 0;
 			
 			_radius = 0;
 			

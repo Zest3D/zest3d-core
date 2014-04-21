@@ -86,7 +86,7 @@ package zest3d.scenegraph
 			var index: int = 0;
 			var numRecords: int = records.length;
 			
-			for ( var i: int = 0; i < numRecords; ++i )
+			for ( var i: int = 1; i < numRecords; ++i )
 			{
 				var tmp: Number = Math.abs( records[ i ].t );
 				if ( tmp < closest )
@@ -99,7 +99,7 @@ package zest3d.scenegraph
 			return records[ index ];
 		}
 		
-		public function get closestToNonNegative(): PickRecord
+		public function get closestNonNegative(): PickRecord
 		{
 			if ( records.length == 0 )
 			{
@@ -136,7 +136,7 @@ package zest3d.scenegraph
 			return records[ index ];
 		}
 		
-		public function get closestToNonPositive(): PickRecord
+		public function get closestNonPositive(): PickRecord
 		{
 			if ( records.length == 0 )
 			{
@@ -187,7 +187,6 @@ package zest3d.scenegraph
 					var modelOrigin: APoint = new APoint( ptmp.x, ptmp.y, ptmp.z );
 					
 					var vtmp: AVector = mesh.worldTransform.inverse.multiplyAVector( _direction );
-					
 					var modelDirection: AVector = new AVector( vtmp.x, vtmp.y, vtmp.z );
 					
 					var line: Line3 = new Line3( modelOrigin, modelDirection );
@@ -266,7 +265,6 @@ package zest3d.scenegraph
 					}
 				}
 			}
-			
 		}
 		
 	}
