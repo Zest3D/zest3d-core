@@ -15,6 +15,7 @@ package zest3d.primitives
 	import zest3d.resources.IndexBuffer;
 	import zest3d.resources.VertexBuffer;
 	import zest3d.resources.VertexFormat;
+	import zest3d.scenegraph.enum.UpdateType;
 	import zest3d.scenegraph.TriMesh;
 	import zest3d.shaders.states.CullState;
 	
@@ -28,6 +29,26 @@ package zest3d.primitives
 		public function Primitive( vFormat:VertexFormat, vertexBuffer:VertexBuffer, indexBuffer:IndexBuffer ) 
 		{
 			super( vFormat, vertexBuffer, indexBuffer );
+			updateModelSpaceVBA();
+		}
+		
+		protected function updateModelSpaceVBA():void
+		{
+			if ( _vba.hasNormal() || _vba.hasBinormal() )
+			{
+				if ( _vba.hasTCoord(0) )
+				{
+					updateModelSpace( UpdateType.USE_TCOORD_CHANNEL );
+				}
+				else
+				{
+					updateModelSpace( UpdateType.USE_GEOMETRY );
+				}
+			}
+			else if( _vba.hasNormal() )
+			{
+				updateModelSpace( UpdateType.NORMALS );
+			}
 		}
 		
 		protected function generateVertexFormat( hasTexCoords:Boolean  = false, hasNormals:Boolean  = false, hasBinormals:Boolean = false, hasTangents:Boolean  = false ):VertexFormat
@@ -59,9 +80,9 @@ package zest3d.primitives
 			
 			// positions
 			vFormat.setAttribute( index, 0, offset, AttributeUsageType.POSITION, AttributeType.FLOAT3, 0 );
-			offset += 3*4;
-			index++;
+			offset += 12;
 			stride += 12;
+			index++;
 			
 			// texcoords
 			if ( hasTexCoords )
