@@ -8,12 +8,13 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.effects.local 
+package zest3d.localeffects 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.scenegraph.Material;
-	import zest3d.shaderfloats.material.MaterialAmbientConstant;
+	import zest3d.resources.TextureCube;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
+	import zest3d.shaders.enum.SamplerCoordinateType;
+	import zest3d.shaders.enum.SamplerFilterType;
+	import zest3d.shaders.enum.SamplerType;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
 	import zest3d.shaders.PixelShader;
@@ -31,12 +32,22 @@ package zest3d.effects.local
 	
 	/**
 	 * ...
-	 * @author Gary Paluk
+	 * @author Gary Paluk - http://www.plugin.io
 	 */
-	public class FlatMaterialEffect extends VisualEffectInstance implements IDisposable 
+	public class SkyboxEffect extends VisualEffectInstance 
 	{
 		
 		public static const msAGALVRegisters: Array = [ 0 ];
+		public static const msAllPTextureUnits: Array = [ 0 ];
+		
+		public static const msPTextureUnits: Array =
+		[
+			null,
+			msAllPTextureUnits,
+			null,
+			null,
+			null
+		];
 		
 		public static const msVRegisters: Array =
 		[
@@ -51,39 +62,51 @@ package zest3d.effects.local
 		[
 			"",
 			// AGAL_1_0
-			"m44 op, va0, vc0 \n" +
-			"mov v0, vc4",
+			"m44 vt0, va0, vc0 \n" +
+			"mov op, vt0.xyww \n" +
+			"neg v0, va0 \n",
 			// AGAL_2_0
 			"",
 			"",
 			""
 		];
-		
+			
 		public static const msPPrograms: Array =
 		[
 			"",
 			// AGAL_1_0
-			"mov oc, v0",
+			//"mov ft0, v0 \n" +
+			"tex ft0, v0, fs0 <cube,clamp,linear,miplinear,dxt1> \n" +
+			"mov oc, ft0",
 			// AGAL_2_0
 			"",
 			"",
 			""
 		];
 		
-		public function FlatMaterialEffect( material: Material ) 
+		public function SkyboxEffect( texture: TextureCube, filter:SamplerFilterType = null,
+									  coord0: SamplerCoordinateType = null, coord1: SamplerCoordinateType = null ) 
 		{
-			var vShader: VertexShader = new VertexShader( "Zest3D.FlatMaterial", 1, 2, 2, 0, false );
+			
+			filter ||= SamplerFilterType.LINEAR;
+			coord0 ||= SamplerCoordinateType.CLAMP_EDGE;
+			coord1 ||= SamplerCoordinateType.CLAMP_EDGE;
+			
+			var vShader: VertexShader = new VertexShader( "Zest3D.Skybox", 1, 1, 1, 0, false );
 			vShader.setInput( 0, "modelPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
 			vShader.setOutput( 0, "clipPosition", VariableType.FLOAT4, VariableSemanticType.POSITION );
-			vShader.setOutput( 1, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			vShader.setConstant( 0, "PVWMatrix", 4 );
-			vShader.setConstant( 1, "MaterialAmbient", 1 );
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.FlatMaterial", 1, 1, 0, 0, false );
-			pShader.setInput( 0, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
+			var pShader: PixelShader = new PixelShader( "Zest3D.Skybox", 1, 1, 0, 1, false );
+			pShader.setInput( 0, "vertexPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
+			pShader.setSampler( 0, "BaseSampler", SamplerType.CUBE );
+			pShader.setFilter( 0, filter );
+			pShader.setCoordinate( 0, 0, coord0 );
+			pShader.setCoordinate( 0, 1, coord1 );
+			pShader.setTextureUnits( msPTextureUnits );
 			pShader.setPrograms( msPPrograms );
 			
 			var pass: VisualPass = new VisualPass();
@@ -105,19 +128,16 @@ package zest3d.effects.local
 			super( visualEffect, 0 );
 			
 			setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );
-			setVertexConstantByHandle( 0, 1, new MaterialAmbientConstant( material ) );
-			/*
-			var ambient:ShaderFloat = new ShaderFloat(1);
-			ambient.setRegister( 0, [material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a ] );
+			setPixelTextureByHandle( 0, 0, texture );
 			
-			setVertexConstantByHandle( 0, 1, ambient );
-			*/
-		}
-		
-		override public function dispose():void 
-		{
-			super.dispose();
+			var filterType: SamplerFilterType = visualEffect.getPixelShader( 0, 0 ).getFilter( 0 );
+			
+			if ( filterType != SamplerFilterType.NEAREST &&
+				 filterType != SamplerFilterType.LINEAR &&
+				 !texture.hasMipmaps )
+			{
+				texture.generateMipmaps();
+			}
 		}
 	}
-
 }

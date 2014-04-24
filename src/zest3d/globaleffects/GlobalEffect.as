@@ -8,7 +8,7 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.effects.global 
+package zest3d.globaleffects 
 {
 	import io.plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.Renderer;

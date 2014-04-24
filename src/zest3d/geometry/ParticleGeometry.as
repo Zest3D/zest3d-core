@@ -11,7 +11,7 @@
 package zest3d.geometry 
 {
 	import flash.utils.ByteArray;
-	import zest3d.effects.local.TextureEffect;
+	import zest3d.localeffects.TextureEffect;
 	import zest3d.resources.enum.AttributeType;
 	import zest3d.resources.enum.AttributeUsageType;
 	import zest3d.resources.VertexBuffer;

@@ -15,7 +15,7 @@ package zest3d.renderers.agal
 	import flash.display3D.Context3DStencilAction;
 	import flash.display3D.Context3DTriangleFace;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.effects.global.GlobalEffect;
+	import zest3d.globaleffects.GlobalEffect;
 	import zest3d.renderers.agal.pdr.AGALIndexBuffer;
 	import zest3d.renderers.agal.pdr.AGALPixelShader;
 	import zest3d.renderers.agal.pdr.AGALRenderTarget;

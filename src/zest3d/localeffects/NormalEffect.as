@@ -8,11 +8,9 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.effects.local 
+package zest3d.localeffects 
 {
-	import io.plugin.core.graphics.Color;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
-	import zest3d.shaderfloats.ShaderFloat;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
 	import zest3d.shaders.PixelShader;
@@ -32,11 +30,11 @@ package zest3d.effects.local
 	 * ...
 	 * @author Gary Paluk - http://www.plugin.io
 	 */
-	public class WireframeEffect extends VisualEffectInstance 
+	public class NormalEffect extends VisualEffectInstance 
 	{
 		
-		public static const msAGALPRegisters: Array = [ 0 ];
 		public static const msAGALVRegisters: Array = [ 0 ];
+		public static const msAGALPRegisters: Array = [ 0 ];
 		
 		public static const msVRegisters: Array =
 		[
@@ -60,51 +58,44 @@ package zest3d.effects.local
 		[
 			"",
 			// AGAL_1_0
-			"m44 op, va0, vc0 \n" +
-			"mov v0, va1",
-			// AGAL_2_0
-			"",
-			"",
-			""
-		];
+			"m44 vt0 va0 vc0 \n" +
+			"mov op vt0 \n" +
 			
-		public static const msPPrograms: Array =
-		[
-			"",
-			// AGAL_1_0
-			"add ft0.x, v0.x,     v0.y     \n" +
-			"add ft0.y, v0.y,     v0.z     \n" +
-			"add ft0.z, v0.z,     v0.w     \n" +
-			"add ft0.w, v0.w,     v0.x     \n" +
-			"sub ft0,   ft0,      fc1.xxxx \n" +
-			"slt ft0,   ft0,      fc1.yyyy \n" +
-			"mul ft0.x, ft0.x,    ft0.y    \n" +
-			"mul ft0.x, ft0.x,    ft0.z    \n" +
-			"mul ft0.x, ft0.x,    ft0.w    \n" +
-			"sub ft0.x, fc1.x,    ft0.x    \n" +
-			"kil ft0.x \n" +
-			"mov oc, fc0",
+			"m33 vt1.xyz va1 vc0 \n" +
+			"mov vt1.w va1.w \n" +
+			"mov v0 vt1",
 			// AGAL_2_0
 			"",
 			"",
 			""
 		];
 		
-		public function WireframeEffect( color: Color, thickness:Number ) 
+		public static const msPPrograms: Array =
+		[
+			"",
+			// AGAL_1_0 
+			"mov oc v0",
+			// AGAL_2_0
+			"",
+			"",
+			""
+		];
+		
+		private var _visualEffect:VisualEffect;
+		
+		public function NormalEffect() 
 		{
-			var vShader: VertexShader = new VertexShader( "Zest3D.Wireframe", 2, 1, 1, 0, false );
+			
+			var vShader: VertexShader = new VertexShader( "Zest3D.NormalEffect", 2, 1, 1, 0, false );
 			vShader.setInput( 0, "modelPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
-			vShader.setInput( 1, "modelWireBlend", VariableType.FLOAT3, VariableSemanticType.NORMAL );
+			vShader.setInput( 1, "modelNormal", VariableType.FLOAT3, VariableSemanticType.NORMAL );
 			vShader.setOutput( 0, "clipPosition", VariableType.FLOAT4, VariableSemanticType.POSITION );
 			vShader.setConstant( 0, "PVWMatrix", 4 );
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.Wireframe", 1, 1, 2, 0, false );
-			pShader.setInput( 0, "vertexWireBlend", VariableType.FLOAT3, VariableSemanticType.NORMAL );
+			var pShader: PixelShader = new PixelShader( "Zest3D.NormalEffect", 0, 1, 0, 0, false );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
-			pShader.setConstant( 0, "color", 1 );
-			pShader.setConstant( 1, "thickness", 1 );
 			pShader.setBaseRegisters( msPRegisters );
 			pShader.setPrograms( msPPrograms );
 			
@@ -121,26 +112,18 @@ package zest3d.effects.local
 			var technique: VisualTechnique = new VisualTechnique();
 			technique.insertPass( pass );
 			
-			var visualEffect:VisualEffect = new VisualEffect();
-			visualEffect.insertTechnique( technique );
+			_visualEffect = new VisualEffect();
+			_visualEffect.insertTechnique( technique );
 			
-			super( visualEffect, 0 );
+			super( _visualEffect, 0 );
 			
-			///// vertex
 			setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );
-			
-			
-			
-			///// fragment
-			// color
-			var col:ShaderFloat = new ShaderFloat(1);
-			col.setRegister( 0, [ 1, 1, 1, 1 ] );
-			setPixelConstantByHandle( 0, 0, col );
-			
-			// thickness
-			var vals:ShaderFloat = new ShaderFloat(1);
-			vals.setRegister( 0, [1 - 0.01, 0, 0, 0] );
-			setPixelConstantByHandle( 0, 1, vals );
+		}
+		
+		public function get visualEffect():VisualEffect 
+		{
+			return _visualEffect;
 		}
 	}
+
 }

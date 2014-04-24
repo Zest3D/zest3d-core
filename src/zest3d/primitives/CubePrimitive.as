@@ -22,7 +22,7 @@ package zest3d.primitives
 	public class CubePrimitive extends Primitive 
 	{
 		
-		public function CubePrimitive( effect:VisualEffectInstance, hasTexCoords:Boolean = true, hasNormals: Boolean = true, hasBinormals:Boolean = false, hasTangents:Boolean, xExtent:int = 1, yExtent:int = 1, zExtent:Number = 1, bothSides:Boolean = false, isStatic:Boolean = true, inside:Boolean = false, transform:Transform = null ) 
+		public function CubePrimitive( effect:VisualEffectInstance, hasTexCoords:Boolean = true, hasNormals: Boolean = true, hasBinormals:Boolean = false, hasTangents:Boolean = false, xExtent:int = 1, yExtent:int = 1, zExtent:Number = 1, bothSides:Boolean = false, isStatic:Boolean = true, inside:Boolean = false, transform:Transform = null ) 
 		{
 			this.effect = effect;
 			this.bothSides = bothSides;

@@ -8,8 +8,11 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.effects.local 
+package zest3d.localeffects 
 {
+	import io.plugin.core.interfaces.IDisposable;
+	import zest3d.scenegraph.Material;
+	import zest3d.shaderfloats.material.MaterialAmbientConstant;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
@@ -28,13 +31,12 @@ package zest3d.effects.local
 	
 	/**
 	 * ...
-	 * @author Gary Paluk - http://www.plugin.io
+	 * @author Gary Paluk
 	 */
-	public class NormalEffect extends VisualEffectInstance 
+	public class FlatMaterialEffect extends VisualEffectInstance implements IDisposable 
 	{
 		
 		public static const msAGALVRegisters: Array = [ 0 ];
-		public static const msAGALPRegisters: Array = [ 0 ];
 		
 		public static const msVRegisters: Array =
 		[
@@ -45,25 +47,12 @@ package zest3d.effects.local
 			null
 		];
 		
-		public static const msPRegisters: Array =
-		[
-			null,
-			msAGALPRegisters,
-			null,
-			null,
-			null
-		];
-		
 		public static const msVPrograms: Array =
 		[
 			"",
 			// AGAL_1_0
-			"m44 vt0 va0 vc0 \n" +
-			"mov op vt0 \n" +
-			
-			"m33 vt1.xyz va1 vc0 \n" +
-			"mov vt1.w va1.w \n" +
-			"mov v0 vt1",
+			"m44 op, va0, vc0 \n" +
+			"mov v0, vc4",
 			// AGAL_2_0
 			"",
 			"",
@@ -73,30 +62,28 @@ package zest3d.effects.local
 		public static const msPPrograms: Array =
 		[
 			"",
-			// AGAL_1_0 
-			"mov oc v0",
+			// AGAL_1_0
+			"mov oc, v0",
 			// AGAL_2_0
 			"",
 			"",
 			""
 		];
 		
-		private var _visualEffect:VisualEffect;
-		
-		public function NormalEffect() 
+		public function FlatMaterialEffect( material: Material ) 
 		{
-			
-			var vShader: VertexShader = new VertexShader( "Zest3D.NormalEffect", 2, 1, 1, 0, false );
+			var vShader: VertexShader = new VertexShader( "Zest3D.FlatMaterial", 1, 2, 2, 0, false );
 			vShader.setInput( 0, "modelPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
-			vShader.setInput( 1, "modelNormal", VariableType.FLOAT3, VariableSemanticType.NORMAL );
 			vShader.setOutput( 0, "clipPosition", VariableType.FLOAT4, VariableSemanticType.POSITION );
+			vShader.setOutput( 1, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			vShader.setConstant( 0, "PVWMatrix", 4 );
+			vShader.setConstant( 1, "MaterialAmbient", 1 );
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.NormalEffect", 0, 1, 0, 0, false );
+			var pShader: PixelShader = new PixelShader( "Zest3D.FlatMaterial", 1, 1, 0, 0, false );
+			pShader.setInput( 0, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
-			pShader.setBaseRegisters( msPRegisters );
 			pShader.setPrograms( msPPrograms );
 			
 			var pass: VisualPass = new VisualPass();
@@ -112,17 +99,24 @@ package zest3d.effects.local
 			var technique: VisualTechnique = new VisualTechnique();
 			technique.insertPass( pass );
 			
-			_visualEffect = new VisualEffect();
-			_visualEffect.insertTechnique( technique );
+			var visualEffect:VisualEffect = new VisualEffect();
+			visualEffect.insertTechnique( technique );
 			
-			super( _visualEffect, 0 );
+			super( visualEffect, 0 );
 			
 			setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );
+			setVertexConstantByHandle( 0, 1, new MaterialAmbientConstant( material ) );
+			/*
+			var ambient:ShaderFloat = new ShaderFloat(1);
+			ambient.setRegister( 0, [material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a ] );
+			
+			setVertexConstantByHandle( 0, 1, ambient );
+			*/
 		}
 		
-		public function get visualEffect():VisualEffect 
+		override public function dispose():void 
 		{
-			return _visualEffect;
+			super.dispose();
 		}
 	}
 

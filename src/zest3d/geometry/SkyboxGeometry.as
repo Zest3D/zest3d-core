@@ -10,7 +10,7 @@
  */
 package zest3d.geometry 
 {
-	import zest3d.effects.local.SkyboxEffect;
+	import zest3d.localeffects.SkyboxEffect;
 	import zest3d.resources.enum.AttributeType;
 	import zest3d.resources.enum.AttributeUsageType;
 	import zest3d.resources.IndexBuffer;

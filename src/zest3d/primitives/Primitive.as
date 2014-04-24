@@ -34,7 +34,9 @@ package zest3d.primitives
 		
 		protected function updateModelSpaceVBA():void
 		{
-			if ( _vba.hasNormal() || _vba.hasBinormal() )
+			trace( "has normals " + _vba.hasNormal() );
+			
+			if ( _vba.hasTangent() || _vba.hasBinormal() )
 			{
 				if ( _vba.hasTCoord(0) )
 				{
@@ -44,10 +46,6 @@ package zest3d.primitives
 				{
 					updateModelSpace( UpdateType.USE_GEOMETRY );
 				}
-			}
-			else if( _vba.hasNormal() )
-			{
-				updateModelSpace( UpdateType.NORMALS );
 			}
 		}
 		
