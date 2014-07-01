@@ -45,6 +45,8 @@ package zest3d.scenegraph
 		
 		protected var _type: LightType;
 		
+		private var _isDisposed:Boolean;
+		
 		public function Light(type: LightType = null) 
 		{
 			_type = type ||= LightType.AMBIENT;
@@ -62,6 +64,8 @@ package zest3d.scenegraph
 			dVector = AVector.UNIT_Z_NEGATIVE;
 			uVector = AVector.UNIT_Y;
 			rVector = AVector.UNIT_X;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -85,6 +89,8 @@ package zest3d.scenegraph
 			dVector = null;
 			uVector = null;
 			rVector = null;
+			
+			_isDisposed = true;
 		}
 		
 		[Inline]
@@ -117,6 +123,12 @@ package zest3d.scenegraph
 		{
 			dVector = direction;
 			AVector.generateOrthonormalBasis( uVector, rVector, dVector );
+		}
+		
+		[Inline]
+		public final function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 		
 	}

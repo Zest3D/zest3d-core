@@ -40,7 +40,7 @@ package zest3d.renderers
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.VisibleSet;
 	import zest3d.scenegraph.Visual;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.ShaderParameters;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
@@ -140,6 +140,8 @@ package zest3d.renderers
 		private var _vertexShaders: Dictionary;
 		private var _pixelShaders: Dictionary;
 		
+		protected var _isDisposed:Boolean;
+		
 		[Inline]
 		public function get vertexFormats():Dictionary
 		{
@@ -225,6 +227,14 @@ package zest3d.renderers
 		
 		public function dispose(): void
 		{
+			//TODO Renderer::dispose()
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		protected function _initialize( width: int, height: int, colorFormat:TextureFormat,
@@ -288,6 +298,8 @@ package zest3d.renderers
 			_allowAlpha = true;
 			
 			msRenderers[ this ] = this;
+			
+			_isDisposed = false;
 		}
 		
 		public function terminate(): void
@@ -1007,7 +1019,7 @@ package zest3d.renderers
 		//}
 		
 		//{region pixel shader
-		public function bindPixelShader( pShader: PixelShader ): void
+		public function bindPixelShader( pShader: FragmentShader ): void
 		{
 			if ( !_pixelShaders[ pShader ] )
 			{
@@ -1015,7 +1027,7 @@ package zest3d.renderers
 			}
 		}
 		
-		public static function bindAllPixelShader( pShader: PixelShader ): void
+		public static function bindAllPixelShader( pShader: FragmentShader ): void
 		{
 			for each( var renderer: Renderer in msRenderers )
 			{
@@ -1023,7 +1035,7 @@ package zest3d.renderers
 			}
 		}
 		
-		public function unbindPixelShader( pShader: PixelShader ): void
+		public function unbindPixelShader( pShader: FragmentShader ): void
 		{
 			if ( _pixelShaders[ pShader ] )
 			{
@@ -1031,7 +1043,7 @@ package zest3d.renderers
 			}
 		}
 		
-		public static function unbindAllPixelShader( pShader: PixelShader ): void
+		public static function unbindAllPixelShader( pShader: FragmentShader ): void
 		{
 			for each( var renderer: Renderer in msRenderers )
 			{
@@ -1039,7 +1051,7 @@ package zest3d.renderers
 			}
 		}
 		
-		public function enablePixelShader( pShader: PixelShader, parameters: ShaderParameters ): void
+		public function enablePixelShader( pShader: FragmentShader, parameters: ShaderParameters ): void
 		{
 			if ( !_pixelShaders[ pShader ] )
 			{
@@ -1048,7 +1060,7 @@ package zest3d.renderers
 			_pixelShaders[ pShader ].enable( this, pShader, parameters );
 		}
 		
-		public function disablePixelShader( pShader: PixelShader, parameters: ShaderParameters ): void
+		public function disablePixelShader( pShader: FragmentShader, parameters: ShaderParameters ): void
 		{
 			if ( _pixelShaders[ pShader ] )
 			{
@@ -1407,7 +1419,7 @@ package zest3d.renderers
 				var vParams: ShaderParameters = instance.getVertexParameters( i );
 				var pParams: ShaderParameters = instance.getPixelParameters( i );
 				var vShader: VertexShader = pass.vertexShader;
-				var pShader: PixelShader = pass.pixelShader;
+				var pShader: FragmentShader = pass.pixelShader;
 				
 				vParams.updateConstants( visual, _camera );
 				pParams.updateConstants( visual, _camera );
@@ -1540,7 +1552,7 @@ package zest3d.renderers
 		
 		private function destroyAllPixelShaders(): void
 		{
-			for each( var key: PixelShader in _pixelShaders )
+			for each( var key: FragmentShader in _pixelShaders )
 			{
 				_pixelShaders[ key ].dispose();
 				_pixelShaders[ key ] = null;
@@ -1703,7 +1715,7 @@ package zest3d.renderers
 			return _vertexShaders[ vShader ];
 		}
 		
-		public function getResourcePixelShader( pShader: PixelShader ): IPixelShader
+		public function getResourcePixelShader( pShader: FragmentShader ): IPixelShader
 		{
 			return _pixelShaders[ pShader ];
 		}

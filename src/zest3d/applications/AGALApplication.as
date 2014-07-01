@@ -21,8 +21,8 @@ package zest3d.applications
 	import io.plugin.math.algebra.HMatrix;
 	import io.plugin.math.base.MathHelper;
 	import io.plugin.utils.KeyMapper;
-	import zest3d.renderers.agal.AGALRenderer;
-	import zest3d.renderers.agal.AGALRendererInput;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
+	import zest3d.renderers.stage3d.Stage3DRendererInput;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Spatial;
 	
@@ -32,7 +32,6 @@ package zest3d.applications
 	 */
 	public class AGALApplication extends WindowApplication implements IDisposable 
 	{
-		
 		protected var _camera: Camera;
 		protected var _worldAxis: Array;
 		protected var _trnSpeed: Number;
@@ -78,7 +77,6 @@ package zest3d.applications
 			_worldAxis[ 0 ] = AVector.ZERO;
 			_worldAxis[ 1 ] = AVector.ZERO;
 			_worldAxis[ 2 ] = AVector.ZERO;
-			
 		}
 		
 		override protected function onAddedToStage(e:Event):void 
@@ -92,11 +90,11 @@ package zest3d.applications
 			stage.stage3Ds[ 0 ].removeEventListener(Event.CONTEXT3D_CREATE, onContext3DCreated );
 			
 			var stage3D: Stage3D = Stage3D( e.currentTarget );
-			stage3D.context3D.enableErrorChecking = true;
+			stage3D.context3D.enableErrorChecking = false;
 			
-			var rendererInput: AGALRendererInput = new AGALRendererInput( stage3D.context3D );
+			var rendererInput: Stage3DRendererInput = new Stage3DRendererInput( stage3D.context3D );
 			
-			_renderer = new AGALRenderer( rendererInput, stage.stageWidth, stage.stageHeight, _colorFormat, _depthStencilFormat, 2 );
+			_renderer = new Stage3DRenderer( rendererInput, stage.stageWidth, stage.stageHeight, _colorFormat, _depthStencilFormat, 2 );
 			
 			if ( onInitialize() )
 			{
@@ -106,16 +104,9 @@ package zest3d.applications
 			
 		}
 		
-		private var count:int;
 		protected function onEnterFrame( e: Event ): void
 		{
 			onIdle();
-			/*
-			if ( count > 0 )
-			{
-				removeEventListener( Event.ENTER_FRAME, onEnterFrame );
-			}
-			count++;*/
 		}
 		
 		override public function onInitialize():Boolean 
@@ -196,7 +187,6 @@ package zest3d.applications
 				return false;
 			}
 			*/
-			
 			
 			var mult: Number = 1 / ( width >= height ? height : width );
 			_xTrack1 = ( 2 * x - width ) * mult;

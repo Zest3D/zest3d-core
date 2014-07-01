@@ -47,6 +47,8 @@ package zest3d.primitives
 		
 		protected var _usage: BufferUsageType;
 		
+		private var _isDisposed:Boolean;
+		
 		public function StandardMesh( vFormat: VertexFormat, isStatic: Boolean = true, inside: Boolean = false, transform: Transform = null ) 
 		{
 			
@@ -100,6 +102,8 @@ package zest3d.primitives
 					}
 				}
 			}
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -116,6 +120,7 @@ package zest3d.primitives
 				_transform = null;
 			}
 			
+			_isDisposed = true;
 		}
 		
 		/**
@@ -1449,6 +1454,12 @@ package zest3d.primitives
 		public function set transform( transform: Transform ): void
 		{
 			_transform = transform;
+		}
+		
+		[Inline]
+		public final function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 		
 		protected function transformData( vba: VertexBufferAccessor): void

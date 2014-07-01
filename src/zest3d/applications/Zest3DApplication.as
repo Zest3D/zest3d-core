@@ -44,8 +44,6 @@ package zest3d.applications
 		protected var _pickOrigin:APoint;
 		protected var _pickDirection:AVector;
 		
-		private var _tf:TextField;
-		
 		public function Zest3DApplication( ) 
 		{
 			super( new Color( 0.3, 0.6, 0.9, 1 ) );
@@ -55,13 +53,6 @@ package zest3d.applications
 			_picker = new Picker();
 			_pickOrigin = new APoint();
 			_pickDirection = new AVector();
-			
-			_tf = new TextField();
-			_tf.textColor = 0xFFFFFF;
-			_tf.width = 1024;
-			_tf.height = 640;
-			_tf.selectable = false;
-			addChild( _tf );
 		}
 		
 		override public function dispose():void 
@@ -110,7 +101,6 @@ package zest3d.applications
 			stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel );
 			
 			_scene = new Node();
-			_scene.name = "scene";
 			
 			_culler = new Culler( _camera );
 			_culler.computeVisibleSet( _scene );
@@ -146,7 +136,7 @@ package zest3d.applications
 			measureTime();
 			
 			var appTime: Number = getTimer();
-			update( appTime );
+			update( 0 );
 			
 			if ( moveCamera() || moveObject() )
 			{
@@ -161,11 +151,12 @@ package zest3d.applications
 			
 			if ( moveObject() )
 			{
-				_scene.update( appTime );
+				_scene.update( 0, true );
 			}
 			
 			draw( appTime );
 			updateFrameCount();
+			
 		}
 		
 		private var _numVisibleObjects:int = 0;
@@ -230,46 +221,6 @@ package zest3d.applications
 		
 		override protected function onMouseDown(e:MouseEvent):Boolean 
 		{
-			// TODO add granular pick levels
-			/*
-			var x:Number = e.localX;
-			var y:Number = e.localY;
-			_height = renderer.height;
-			
-			var viewport:Array = renderer.getViewport();
-			var time:uint = getTimer();
-			
-			if ( _renderer.getPickRay( x, _height - 1 - y, _pickOrigin, _pickDirection ) )
-			{
-				_picker.execute( scene, _pickOrigin, _pickDirection, 0, Number.MAX_VALUE);
-				
-				if (_picker.records.length > 0)
-				{
-					var record:PickRecord = _picker.closestNonNegative;
-					var object:Spatial = record.intersected;
-					
-					_tf.text = "Pick Records: " + _picker.records.length + "\nx: " + x + "\nheight: " + _height + "\norigin: " + _pickOrigin + "\ndirection: " + _pickDirection;
-					
-					
-					for ( var i:int = 0; i < _picker.records.length; ++i )
-					{
-						_tf.appendText( "\n" );
-						_tf.appendText( "\n=== Pick record " + i + " ===" );
-						_tf.appendText( "\nRay t distance: " + _picker.records[i].t );
-						_tf.appendText( "\nMesh polygon ID: " + _picker.records[i].triangle );
-						_tf.appendText( "\nBarycentric coords: " + _picker.records[i].bary );
-						_tf.appendText( "\nIntersected Mesh: " + _picker.records[i].intersected.name );
-						
-						_tf.appendText( "\n" );
-					}
-				}
-				else
-				{
-					_tf.text = "Pick Records: 0\nx: " + x + "\nheight: " + (_height - 1) + "\norigin: " + _pickOrigin + "\ndirection: " + _pickDirection;
-				}
-				_tf.appendText( "\nTotal Time ms: " + (getTimer() - time) );
-			}
-			*/
 			return super.onMouseDown(e);
 		}
 	}

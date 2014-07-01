@@ -8,13 +8,12 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import flash.display3D.textures.Texture;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALMapping;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DMapping;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.ITexture2D;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferLockingType;
@@ -25,16 +24,18 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALTexture2D implements ITexture2D, IDisposable
+	public class Stage3DTexture2D implements ITexture2D, IDisposable
 	{
 		
-		private var _renderer: AGALRenderer;
+		private var _renderer: Stage3DRenderer;
 		private var _texture: Texture2D;
 		private var _textureFormat: TextureFormat;
 		private var _context: Context3D;
 		private var _gpuTexture: Texture;
 		
-		public function AGALTexture2D( renderer: AGALRenderer, texture: Texture2D )
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DTexture2D( renderer: Stage3DRenderer, texture: Texture2D )
 		{
 			_renderer = renderer;
 			_context = _renderer.data.context;
@@ -42,7 +43,7 @@ package zest3d.renderers.agal.pdr
 			_texture = texture;
 			_textureFormat = texture.format;
 			
-			var format: String = AGALMapping.textureFormat[ _textureFormat.index ];
+			var format: String = Stage3DMapping.textureFormat[ _textureFormat.index ];
 			
 			//TODO pass a param for optimize RTT
 			_gpuTexture = _context.createTexture( _texture.width, _texture.height, format, false, 0 );
@@ -66,11 +67,20 @@ package zest3d.renderers.agal.pdr
 						throw new Error( "Unknown texture format." );
 					break;
 			}
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_gpuTexture.dispose();
+			_gpuTexture = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer, textureUnit: int ): void

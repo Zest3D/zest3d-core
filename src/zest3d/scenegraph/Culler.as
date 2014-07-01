@@ -34,6 +34,7 @@ package zest3d.scenegraph
 		protected var _planeState: uint;
 		
 		protected var _visibleSet: VisibleSet;
+		protected var _isDisposed: Boolean;
 		
 		public function Culler( camera: Camera = null ) 
 		{
@@ -49,6 +50,7 @@ package zest3d.scenegraph
 			}
 			
 			_visibleSet = new VisibleSet();
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -58,6 +60,13 @@ package zest3d.scenegraph
 			
 			_frustum.length = 0;
 			_frustum = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		[Inline]
@@ -211,6 +220,7 @@ package zest3d.scenegraph
 			{
 				return false;
 			}
+			
 			
 			var index: int = _planeQuantity - 1;
 			var mask: uint = ( 1 << index );

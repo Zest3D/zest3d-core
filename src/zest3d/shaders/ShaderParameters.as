@@ -27,6 +27,7 @@ package zest3d.shaders
 		protected var _constants:Vector.<ShaderFloat>;
 		protected var _numTextures: int;
 		protected var _textures:Vector.<TextureBase>;
+		protected var _isDisposed:Boolean;
 		
 		public function ShaderParameters( shader: Shader ) 
 		{
@@ -43,6 +44,8 @@ package zest3d.shaders
 			{
 				_textures = new Vector.<TextureBase>( _numTextures );
 			}
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -64,6 +67,13 @@ package zest3d.shaders
 				}
 				_textures = null;
 			}
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		[Inline]

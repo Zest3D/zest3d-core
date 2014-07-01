@@ -34,8 +34,6 @@ package zest3d.primitives
 		
 		protected function updateModelSpaceVBA():void
 		{
-			trace( "has normals " + _vba.hasNormal() );
-			
 			if ( _vba.hasTangent() || _vba.hasBinormal() )
 			{
 				if ( _vba.hasTCoord(0) )

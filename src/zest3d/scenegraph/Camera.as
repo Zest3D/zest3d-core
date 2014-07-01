@@ -58,9 +58,12 @@ package zest3d.scenegraph
 		
 		protected var _depthType:int;
 		
+		protected var _isDisposed:Boolean;
+		
 		protected static var msDefaultDepthType:int = ZERO_TO_ONE;
 		
 		private var _validateCameraFrame: Boolean;
+		
 		
 		public function Camera( isPerspective: Boolean = true ) 
 		{
@@ -95,11 +98,19 @@ package zest3d.scenegraph
 			setFrame( APoint.ORIGIN, AVector.UNIT_Z, AVector.UNIT_Y, AVector.UNIT_X );
 			setFrustumFOV( 90, 1, 1, 10000 );
 			
+			_isDisposed = true;
 		}
 		
 		public function dispose(): void
 		{
 			//TODO  Camera::dispose()
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function setFrame( position: APoint, dVector: AVector, uVector: AVector, rVector:AVector ): void
@@ -374,7 +385,7 @@ package zest3d.scenegraph
 		}
 		
 		[Inline]
-		internal static function set defaultDepthType( type:int ): void
+		public static function set defaultDepthType( type:int ): void
 		{
 			msDefaultDepthType = type;
 		}

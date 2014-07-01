@@ -22,15 +22,23 @@ package zest3d.shaders.states
 		public var enabled: Boolean;
 		public var ccwOrder: Boolean;
 		
+		protected var _isDisposed: Boolean;
+		
 		public function CullState() 
 		{
 			enabled = true;
 			ccwOrder = true;
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

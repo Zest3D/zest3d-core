@@ -26,11 +26,13 @@ package zest3d.shaders
 	public class VisualEffect implements IDisposable 
 	{
 		
-		protected var _techniques: Vector.<VisualTechnique>
+		protected var _techniques: Vector.<VisualTechnique>;
+		protected var _isDisposed: Boolean;
 		
 		public function VisualEffect() 
 		{
 			_techniques = new Vector.<VisualTechnique>();
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -40,6 +42,12 @@ package zest3d.shaders
 				technique.dispose();
 			}
 			_techniques = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function insertTechnique( technique: VisualTechnique ): void
@@ -85,7 +93,7 @@ package zest3d.shaders
 			throw new IllegalArgumentError( "Invalid index." );
 		}
 		
-		public function getPixelShader( techniqueIndex: int, passIndex: int ): PixelShader
+		public function getPixelShader( techniqueIndex: int, passIndex: int ): FragmentShader
 		{
 			if ( 0 <= techniqueIndex && techniqueIndex < _techniques.length )
 			{

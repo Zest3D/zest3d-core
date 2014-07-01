@@ -8,45 +8,44 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import com.adobe.utils.extended.AGALMiniAssembler;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Program3D;
 	import flash.utils.ByteArray;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IPixelShader;
 	import zest3d.renderers.Renderer;
 	import zest3d.shaders.enum.PixelShaderProfileType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.ShaderParameters;
 	
 	/**
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALPixelShader extends AGALShader implements IPixelShader, IDisposable 
+	public class Stage3DFragmentShader extends Stage3DShader implements IPixelShader, IDisposable 
 	{
 		
-		private var _renderer: AGALRenderer;
+		private var _renderer: Stage3DRenderer;
 		private var _context: Context3D;
-		private var _pixelShader: PixelShader;
+		private var _pixelShader: FragmentShader;
 		
 		public static var program: ByteArray;
 		public var _program: Program3D;
 		
-		public function AGALPixelShader( renderer: Renderer, pShader: PixelShader ) 
+		public function Stage3DFragmentShader( renderer: Renderer, pShader: FragmentShader ) 
 		{
-			_renderer = renderer as AGALRenderer;
+			_renderer = renderer as Stage3DRenderer;
 			_context = _renderer.data.context;
 			
-			var programText: String = pShader.getProgram( PixelShader.profile.index );
+			var programText: String = pShader.getProgram( FragmentShader.profile.index );
 			var assembler: AGALMiniAssembler = new AGALMiniAssembler( false );
 			
 			
-			switch( PixelShader.profile )
+			switch( FragmentShader.profile )
 			{
 				case PixelShaderProfileType.AGAL_1_0 :
 						program = assembler.assemble( Context3DProgramType.FRAGMENT, programText, 1 );
@@ -58,7 +57,7 @@ package zest3d.renderers.agal.pdr
 			
 			_program = _context.createProgram();
 			
-			_program.upload( AGALVertexShader.program, AGALPixelShader.program );
+			_program.upload( Stage3DVertexShader.program, Stage3DFragmentShader.program );
 		}
 		
 		override public function dispose(): void
@@ -67,14 +66,14 @@ package zest3d.renderers.agal.pdr
 			super.dispose();
 		}
 		
-		public function enable( renderer: Renderer, pShader: PixelShader, parameters: ShaderParameters ): void
+		public function enable( renderer: Renderer, pShader: FragmentShader, parameters: ShaderParameters ): void
 		{
 			//  glEnable(GL_FRAGMENT_PROGRAM_ARB);
 			//  glBindProgramARB(GL_FRAGMENT_PROGRAM_ARB, mShader);
 			
 			_context.setProgram( _program );
 			
-			var profile: int = PixelShader.profile.index;
+			var profile: int = FragmentShader.profile.index;
 			var numConstants: int = pShader.numConstants;
 			var offset: int = 0;
 			
@@ -93,10 +92,10 @@ package zest3d.renderers.agal.pdr
 			setSamplerState( renderer, pShader, profile, parameters, _renderer.data.maxPShaderImages, _renderer.data.currentSS, _context );
 		}
 		
-		public function disable( renderer: Renderer, pShader: PixelShader, parameters: ShaderParameters ): void
+		public function disable( renderer: Renderer, pShader: FragmentShader, parameters: ShaderParameters ): void
 		{
-			var profile: int = PixelShader.profile.index;
-			var agalRenderer:AGALRenderer = renderer as AGALRenderer;
+			var profile: int = FragmentShader.profile.index;
+			var agalRenderer:Stage3DRenderer = renderer as Stage3DRenderer;
 			
 			disableTextures( renderer, pShader, profile, parameters, agalRenderer.data.maxPShaderImages );
 		}

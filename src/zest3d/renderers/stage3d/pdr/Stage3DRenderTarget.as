@@ -8,8 +8,7 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display.BitmapData;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.RectangleTexture;
@@ -19,7 +18,7 @@ package zest3d.renderers.agal.pdr
 	import flash.utils.Endian;
 	import io.plugin.core.interfaces.IDisposable;
 	import io.plugin.core.system.Assert;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IRenderTarget;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.TextureFormat;
@@ -31,10 +30,10 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALRenderTarget implements IRenderTarget, IDisposable 
+	public class Stage3DRenderTarget implements IRenderTarget, IDisposable 
 	{
 		
-		private var _renderer: AGALRenderer;
+		private var _renderer: Stage3DRenderer;
 		
 		private var _numTargets:int;
 		private var _width:int;
@@ -54,7 +53,9 @@ package zest3d.renderers.agal.pdr
 		
 		private var bitmapData:BitmapData;
 		
-		public function AGALRenderTarget( renderer: AGALRenderer, renderTarget: RenderTarget ) 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DRenderTarget( renderer: Stage3DRenderer, renderTarget: RenderTarget ) 
 		{
 			_renderTarget = renderTarget;
 			_renderer = renderer;
@@ -100,7 +101,7 @@ package zest3d.renderers.agal.pdr
 				/////////////////////////
 				
 				Assert.isTrue( !renderer.inTextureRectangleMap( colorTexture ), "Texture shouldn't exist." );
-				var ogColorTexture:AGALTextureRectangle = new AGALTextureRectangle( renderer, colorTexture );
+				var ogColorTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( renderer, colorTexture );
 				
 				
 				renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
@@ -125,6 +126,8 @@ package zest3d.renderers.agal.pdr
 					 * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 					 */
 				}
+				
+				_isDisposed = false;
 			}
 			
 			// depth stencil buffer
@@ -133,7 +136,7 @@ package zest3d.renderers.agal.pdr
 			{
 				Assert.isTrue( !renderer.inTextureRectangleMap( depthStencilTexture ), "Texture shouldn't exist." );
 				
-				var ogDepthStencilTexture:AGALTextureRectangle = new AGALTextureRectangle( renderer, depthStencilTexture );
+				var ogDepthStencilTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( renderer, depthStencilTexture );
 				renderer.insertInTextureRectangleMap( depthStencilTexture, ogDepthStencilTexture );
 				_depthStencilTexture = ogDepthStencilTexture.texture;
 				
@@ -142,7 +145,14 @@ package zest3d.renderers.agal.pdr
 		
 		public function dispose(): void
 		{
+			// TODO AGALRenderTarget:dispose();
 			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer ): void
@@ -169,7 +179,7 @@ package zest3d.renderers.agal.pdr
 				bitmapData.copyPixelsToByteArray( new Rectangle( 0, 0, 800, 600 ), byteArray );
 				colorTexture.data = byteArray;
 				
-				var ogColorTexture:AGALTextureRectangle = new AGALTextureRectangle( _renderer, colorTexture );
+				var ogColorTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( _renderer, colorTexture );
 				renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
 				_colorTextures[i] = ogColorTexture.texture;
 			}

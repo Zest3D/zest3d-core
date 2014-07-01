@@ -31,6 +31,8 @@ package zest3d.shaders.states
 		public var onZFail: OperationType;
 		public var onZPass: OperationType;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function StencilState() 
 		{
 			enabled = false;
@@ -42,12 +44,23 @@ package zest3d.shaders.states
 			onFail = OperationType.KEEP;
 			onZFail = OperationType.KEEP;
 			onZPass = OperationType.KEEP;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
+			compare = null;
+			onFail = null;
+			onZFail = null;
+			onZPass = null;
+			_isDisposed = true;
 		}
 		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
+		}
 	}
 
 }

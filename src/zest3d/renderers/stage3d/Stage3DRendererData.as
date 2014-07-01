@@ -8,8 +8,7 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
-{
+package zest3d.renderers.stage3d {
 	
 	import flash.display3D.Context3D;
 	import io.plugin.core.interfaces.IDisposable;
@@ -19,7 +18,7 @@ package zest3d.renderers.agal
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALRendererData implements IDisposable
+	public class Stage3DRendererData implements IDisposable
 	{
 		
 		public static const MAX_NUM_VSAMPLERS: int = 4;
@@ -29,7 +28,7 @@ package zest3d.renderers.agal
 		public var context: Context3D;
 		
 		// internal use only
-		public var currentRS: AGALRenderState;
+		public var currentRS: Stage3DRenderState;
 		
 		// internal use only
 		public var currentSS: Array;
@@ -43,18 +42,21 @@ package zest3d.renderers.agal
 		// internal use only
 		public var maxCombinedImages: int;
 		
-		public function AGALRendererData( input: AGALRendererInput, width: int, height: int, colorFormat:TextureFormat, depthStencilFormat: TextureFormat, numMultiSamples: int  ) 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DRendererData( input: Stage3DRendererInput, width: int, height: int, colorFormat:TextureFormat, depthStencilFormat: TextureFormat, numMultiSamples: int  ) 
 		{
 			context = input.context;
 			
-			currentRS = new AGALRenderState( context );
+			currentRS = new Stage3DRenderState( context );
 			
 			currentSS = [];
 			for ( var i: int = 0; i < MAX_NUM_PSAMPLERS; ++i )
 			{
-				currentSS[ i ] = new AGALSamplerState();
+				currentSS[ i ] = new Stage3DSamplerState();
 			}
 			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -62,6 +64,13 @@ package zest3d.renderers.agal
 			currentRS.dispose();
 			currentSS = null;
 			context = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

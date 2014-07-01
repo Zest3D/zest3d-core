@@ -39,12 +39,16 @@ package zest3d.resources
 			_data = new ByteArray( );
 			_data.endian = Endian.LITTLE_ENDIAN;
 			_data.length = _numBytes;
+			
+			_isDisposed = false;
 		}
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
 			_data.length = 0;
 			_data = null;
+			
+			super.dispose();
 		}
 		
 		[Inline]

@@ -51,7 +51,7 @@ package zest3d.resources
 			}
 		}
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
 			Renderer.unbindAllRenderTarget( this );
 			for each( var texture:TextureRectangle in _colorTextures )
@@ -59,6 +59,8 @@ package zest3d.resources
 				texture.dispose();
 			}
 			_colorTextures = null;
+			
+			super.dispose();
 		}
 		
 		[Inline]

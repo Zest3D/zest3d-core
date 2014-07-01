@@ -26,6 +26,8 @@ package zest3d.shaders.states
 		public var scale: Number;
 		public var bias: Number;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function OffsetState() 
 		{
 			fillEnabled = false;
@@ -33,11 +35,18 @@ package zest3d.shaders.states
 			pointEnabled = false;
 			scale = 0;
 			bias = 0;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

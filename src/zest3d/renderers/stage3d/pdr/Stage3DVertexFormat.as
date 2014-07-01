@@ -8,13 +8,12 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import flash.display3D.VertexBuffer3D;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALMapping;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DMapping;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IVertexFormat;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.AttributeUsageType;
@@ -24,7 +23,7 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALVertexFormat implements IVertexFormat, IDisposable 
+	public class Stage3DVertexFormat implements IVertexFormat, IDisposable 
 	{
 		
 		private var _stride: int;
@@ -91,7 +90,9 @@ package zest3d.renderers.agal.pdr
 		
 		private var _vFormat: VertexFormat;
 		
-		public function AGALVertexFormat( renderer:Renderer, vFormat: VertexFormat ) 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DVertexFormat( renderer:Renderer, vFormat: VertexFormat ) 
 		{
 			
 			_stride = vFormat.stride;
@@ -117,8 +118,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasPosition = true;
 				type = vFormat.getAttributeType( i ).index;
-				_positionChannels = AGALMapping.attributeChannels[ type ];
-				_positionType = AGALMapping.attributeType[ type ];
+				_positionChannels = Stage3DMapping.attributeChannels[ type ];
+				_positionType = Stage3DMapping.attributeType[ type ];
 				_positionOffset = vFormat.getOffset( i );
 				_positionIndex = vFormat.getIndex( AttributeUsageType.POSITION, 0 );
 			}
@@ -128,8 +129,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasNormal = true;
 				type = vFormat.getAttributeType( i ).index;
-				_normalChannels = AGALMapping.attributeChannels[ type ];
-				_normalType = AGALMapping.attributeType[ type ];
+				_normalChannels = Stage3DMapping.attributeChannels[ type ];
+				_normalType = Stage3DMapping.attributeType[ type ];
 				_normalOffset = vFormat.getOffset( i );
 				_normalIndex = vFormat.getIndex( AttributeUsageType.NORMAL, 0 );
 			}
@@ -139,8 +140,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasTangent = true;
 				type = vFormat.getAttributeType( i ).index;
-				_tangentChannels = AGALMapping.attributeChannels[ type ];
-				_tangentType = AGALMapping.attributeType[ type ];
+				_tangentChannels = Stage3DMapping.attributeChannels[ type ];
+				_tangentType = Stage3DMapping.attributeType[ type ];
 				_tangentOffset = vFormat.getOffset( i );
 				_tangentIndex = vFormat.getIndex( AttributeUsageType.TANGENT, 0 );
 			}
@@ -150,8 +151,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasBinormal = true;
 				type = vFormat.getAttributeType( i ).index;
-				_binormalChannels = AGALMapping.attributeChannels[ type ];
-				_binormalType = AGALMapping.attributeType[ type ];
+				_binormalChannels = Stage3DMapping.attributeChannels[ type ];
+				_binormalType = Stage3DMapping.attributeType[ type ];
 				_binormalOffset = vFormat.getOffset( i );
 				_binormalIndex = vFormat.getIndex( AttributeUsageType.BINORMAL, 0 );
 			}
@@ -163,8 +164,8 @@ package zest3d.renderers.agal.pdr
 				{
 					_hasTCoord[ unit ] = true;
 					type = vFormat.getAttributeType( i ).index;
-					_tCoordChannels[ unit ] = AGALMapping.attributeChannels[ type ];
-					_tCoordType[ unit ] = AGALMapping.attributeType[ type ];
+					_tCoordChannels[ unit ] = Stage3DMapping.attributeChannels[ type ];
+					_tCoordType[ unit ] = Stage3DMapping.attributeType[ type ];
 					_tCoordOffset[ unit ] = vFormat.getOffset( i );
 					_tCoordIndex[ unit ] = vFormat.getIndex( AttributeUsageType.TEXCOORD, unit );
 				}
@@ -177,8 +178,8 @@ package zest3d.renderers.agal.pdr
 				{
 					_hasColor[ unit ] = true;
 					type = vFormat.getAttributeType( i ).index;
-					_colorChannels[ unit ] = AGALMapping.attributeChannels[ type ];
-					_colorType[ unit ] = AGALMapping.attributeType[ type ];
+					_colorChannels[ unit ] = Stage3DMapping.attributeChannels[ type ];
+					_colorType[ unit ] = Stage3DMapping.attributeType[ type ];
 					_colorOffset[ unit ] = vFormat.getOffset( i );
 					_colorIndex[ unit ] = vFormat.getIndex( AttributeUsageType.COLOR, unit );
 				}
@@ -189,8 +190,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasBlendIndices = true;
 				type = vFormat.getAttributeType( i ).index;
-				_blendIndicesChannels = AGALMapping.attributeChannels[ type ];
-				_blendIndicesType = AGALMapping.attributeType[ type ];
+				_blendIndicesChannels = Stage3DMapping.attributeChannels[ type ];
+				_blendIndicesType = Stage3DMapping.attributeType[ type ];
 				_blendIndicesOffset = vFormat.getOffset( i );
 				_blendIndicesIndex = vFormat.getIndex( AttributeUsageType.BLENDINDICES, 0 );
 			}
@@ -200,8 +201,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasBlendWeight = true;
 				type = vFormat.getAttributeType( i ).index;
-				_blendWeightChannels = AGALMapping.attributeChannels[ type ];
-				_blendWeightType = AGALMapping.attributeType[ type ];
+				_blendWeightChannels = Stage3DMapping.attributeChannels[ type ];
+				_blendWeightType = Stage3DMapping.attributeType[ type ];
 				_blendWeightOffset = vFormat.getOffset( i );
 				_blendWeightIndex = vFormat.getIndex( AttributeUsageType.BLENDWEIGHT, 0 );
 			}
@@ -211,8 +212,8 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasFogCoord = true;
 				type = vFormat.getAttributeType( i ).index;
-				_fogCoordChannels = AGALMapping.attributeChannels[ type ];
-				_fogCoordType = AGALMapping.attributeType[ type ];
+				_fogCoordChannels = Stage3DMapping.attributeChannels[ type ];
+				_fogCoordType = Stage3DMapping.attributeType[ type ];
 				_fogCoordOffset = vFormat.getOffset( i );
 				_fogCoordIndex = vFormat.getIndex( AttributeUsageType.FOGCOORD, 0 );
 			}
@@ -222,24 +223,33 @@ package zest3d.renderers.agal.pdr
 			{
 				_hasPSize = true;
 				type = vFormat.getAttributeType( i ).index;
-				_pSizeChannels = AGALMapping.attributeChannels[ type ];
-				_pSizeType = AGALMapping.attributeType[ type ];
+				_pSizeChannels = Stage3DMapping.attributeChannels[ type ];
+				_pSizeType = Stage3DMapping.attributeType[ type ];
 				_pSizeOffset = vFormat.getOffset( i );
 				_pSizeIndex = vFormat.getIndex( AttributeUsageType.PSIZE, 0 );
 			}
 			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_vFormat.dispose();
+			_vFormat = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer): void
 		{
-			var agalRenderer: AGALRenderer = renderer as AGALRenderer;
+			var agalRenderer: Stage3DRenderer = renderer as Stage3DRenderer;
 			var context: Context3D = agalRenderer.data.context
-			var buffer: VertexBuffer3D = AGALVertexBuffer.currentVBuffer;
+			var buffer: VertexBuffer3D = Stage3DVertexBuffer.currentVBuffer;
 			
 			if ( _hasPosition )
 			{
@@ -284,7 +294,7 @@ package zest3d.renderers.agal.pdr
 		public function disable( renderer: Renderer ): void
 		{
 			
-			var agalRenderer: AGALRenderer = renderer as AGALRenderer;
+			var agalRenderer: Stage3DRenderer = renderer as Stage3DRenderer;
 			var context: Context3D = agalRenderer.data.context;
 			
 			//TODO check here

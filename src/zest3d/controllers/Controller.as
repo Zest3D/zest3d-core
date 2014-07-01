@@ -42,9 +42,9 @@ package zest3d.controllers
 			_applicationTime = -Number.MAX_VALUE;
 		}
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
-			//TODO
+			super.dispose();
 		}
 		
 		
@@ -103,16 +103,16 @@ package zest3d.controllers
 			var timeRange: Number = maxTime - minTime;
 			if ( timeRange > 0 )
 			{
-				var multples: Number = ( controlTime - minTime ) / timeRange;
-				var integerTime: Number = Math.floor( multples );
-				var fractionTime: Number = multples - integerTime;
+				var multiples: Number = ( controlTime - minTime ) / timeRange;
+				var integerTime: Number = Math.floor( multiples );
+				var fractionTime: Number = multiples - integerTime;
 				
 				if ( repeat == RepeatType.WRAP )
 				{
 					return minTime + fractionTime * timeRange;
 				}
 				
-				if ( (int( integerTime ) & 1) )
+				if ( int( integerTime ) & 1 )
 				{
 					return maxTime - fractionTime * timeRange;
 				}

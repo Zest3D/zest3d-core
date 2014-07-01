@@ -15,7 +15,7 @@ package zest3d.localeffects
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.SamplerCoordinateType;
 	import zest3d.shaders.enum.SamplerFilterType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.VisualEffect;
 	import zest3d.shaders.VisualEffectInstance;
 	
@@ -35,7 +35,7 @@ package zest3d.localeffects
 			
 			super();
 			
-			var pShader:PixelShader = getPixelShader( 0, 0 );
+			var pShader:FragmentShader = getPixelShader( 0, 0 );
 			
 			// sampler0
 			pShader.setFilter( 0, SamplerFilterType.LINEAR );

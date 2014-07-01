@@ -27,7 +27,7 @@ package zest3d.localeffects
 	import zest3d.shaders.enum.SamplerType;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -191,7 +191,7 @@ package zest3d.localeffects
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.DiffuseNormalSpecularEffect", 4, 1, 4, 2, false );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.DiffuseNormalSpecularEffect", 4, 1, 4, 2, false );
 			pShader.setInput( 0, "modelTexCoords", VariableType.FLOAT2, VariableSemanticType.TEXCOORD0 );
 			pShader.setInput( 1, "modelNormals", VariableType.FLOAT3, VariableSemanticType.NORMAL );
 			pShader.setInput( 2, "lightVec", VariableType.FLOAT3, VariableSemanticType.NONE );
@@ -241,7 +241,6 @@ package zest3d.localeffects
 			
 			setPixelConstantByHandle( 0, 0, common );
 			setPixelConstantByHandle( 0, 1, new LightAmbientConstant( light ) );
-			//setPixelConstantByHandle( 0, 2, new LightDiffuseConstant( light ) );
 			setPixelConstantByHandle( 0, 2, new LightSpecularConstant( light ) );
 			setPixelConstantByHandle( 0, 3, new LightSpecularExponentConstant( light ) );
 			

@@ -27,10 +27,12 @@ package zest3d.shaders
 	{
 		
 		protected var _passes:Vector.<VisualPass>
+		protected var _isDisposed:Boolean;
 		
 		public function VisualTechnique() 
 		{
 			_passes = new Vector.<VisualPass>();
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -40,6 +42,12 @@ package zest3d.shaders
 				pass.dispose();
 			}
 			_passes = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function insertPass( pass:VisualPass ): void
@@ -76,7 +84,7 @@ package zest3d.shaders
 			throw new IllegalArgumentError( "Invalid index." );
 		}
 		
-		public function getPixelShader( index: int ): PixelShader
+		public function getPixelShader( index: int ): FragmentShader
 		{
 			if ( 0 <= index && index < _passes.length )
 			{

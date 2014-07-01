@@ -30,14 +30,16 @@ package zest3d.scenegraph
 	public class ScreenTarget implements IDisposable 
 	{
 		
+		private var _isDisposed:Boolean;
+		
 		public function ScreenTarget() 
 		{
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
 		}
 		
 		public static function createCamera(): Camera
@@ -197,6 +199,11 @@ package zest3d.scenegraph
 			}
 			
 			return true;
+		}
+		
+		public function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 	}
 

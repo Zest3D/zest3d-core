@@ -1,17 +1,16 @@
-/**
- * Plugin.IO - http://www.plugin.io
- * Copyright (c) 2013
- *
- * Geometric Tools, LLC
- * Copyright (c) 1998-2012
- * 
- * Distributed under the Boost Software License, Version 1.0.
- * http://www.boost.org/LICENSE_1_0.txt
- */
-package zest3d.localeffects 
+package zest3d.localeffects
 {
-	import zest3d.resources.TextureCube;
+	import zest3d.resources.Texture;
+	import zest3d.resources.Texture2D;
+	import zest3d.scenegraph.Light;
+	import zest3d.shaderfloats.camera.CameraModelPositionConstant;
+	import zest3d.shaderfloats.light.LightModelPositionConstant;
+	import zest3d.shaderfloats.matrix.PMatrixConstant;
+	import zest3d.shaderfloats.matrix.PVMatrixConstant;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
+	import zest3d.shaderfloats.matrix.VWMatrixConstant;
+	import zest3d.shaderfloats.matrix.WMatrixConstant;
+	import zest3d.shaderfloats.ShaderFloat;
 	import zest3d.shaders.enum.SamplerCoordinateType;
 	import zest3d.shaders.enum.SamplerFilterType;
 	import zest3d.shaders.enum.SamplerType;
@@ -30,15 +29,12 @@ package zest3d.localeffects
 	import zest3d.shaders.VisualPass;
 	import zest3d.shaders.VisualTechnique;
 	
-	/**
-	 * ...
-	 * @author Gary Paluk - http://www.plugin.io
-	 */
-	public class SkyboxEffect extends VisualEffectInstance 
+	public class MultiplyEffect extends VisualEffectInstance
 	{
 		
 		public static const msAGALVRegisters: Array = [ 0 ];
-		public static const msAllPTextureUnits: Array = [ 0 ];
+		public static const msAGALPRegisters: Array = [ 0 ];
+		public static const msAllPTextureUnits: Array = [ 0, 1 ];
 		
 		public static const msPTextureUnits: Array =
 		[
@@ -58,54 +54,63 @@ package zest3d.localeffects
 			null
 		];
 		
+		public static const msPRegisters: Array =
+		[
+			null,
+			msAGALPRegisters,
+			null,
+			null,
+			null
+		];
+		
 		public static const msVPrograms: Array =
 		[
 			"",
 			// AGAL_1_0
-			"m44 vt0, va0, vc0 \n" +
-			"mov op, vt0.xyww \n" +
-			"neg v0, va0 \n",
-			// AGAL_2_0
-			"",
-			"",
-			""
-		];
-			
-		public static const msPPrograms: Array =
-		[
-			"",
-			// AGAL_1_0
-			//"mov ft0, v0 \n" +
-			"tex ft0, v0, fs0 <cube,clamp,linear,miplinear,dxt1> \n" +
-			"mov oc, ft0",
+			"m44 op, va0, vc0 \n" +
+			"mov vi0, va1",
 			// AGAL_2_0
 			"",
 			"",
 			""
 		];
 		
-		public function SkyboxEffect( texture: TextureCube, filter:SamplerFilterType = null,
-									  coord0: SamplerCoordinateType = null, coord1: SamplerCoordinateType = null ) 
+		public static const msPPrograms: Array =
+		[
+			"",
+			"tex ft0 vi0 fs0 <2d,repeat,linear,miplinear,dxt1> \n" +
+			"tex ft1 vi0 fs1 <2d,repeat,linear,miplinear,dxt1> \n" +
+			"mul oc ft0 ft1",
+			// AGAL_2_0
+			"",
+			"",
+			""
+		];
+		
+		private var _visualEffect:VisualEffect;
+		
+		public function MultiplyEffect( texture:Texture2D, noise:Texture2D,filter:SamplerFilterType = null,
+										  coord0: SamplerCoordinateType = null, coord1:SamplerCoordinateType = null ) 
 		{
-			
 			filter ||= SamplerFilterType.LINEAR;
-			coord0 ||= SamplerCoordinateType.CLAMP_EDGE;
-			coord1 ||= SamplerCoordinateType.CLAMP_EDGE;
+			coord0 ||= SamplerCoordinateType.CLAMP;
+			coord1 ||= SamplerCoordinateType.CLAMP;
 			
-			var vShader: VertexShader = new VertexShader( "Zest3D.Skybox", 1, 1, 1, 0, false );
+			var vShader: VertexShader = new VertexShader( "Zest3D.TextureEffect", 2, 1, 1, 0, false );
 			vShader.setInput( 0, "modelPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
+			vShader.setInput( 1, "modelTCoord", VariableType.FLOAT2, VariableSemanticType.TEXCOORD0 );
 			vShader.setOutput( 0, "clipPosition", VariableType.FLOAT4, VariableSemanticType.POSITION );
 			vShader.setConstant( 0, "PVWMatrix", 4 );
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: FragmentShader = new FragmentShader( "Zest3D.Skybox", 1, 1, 0, 1, false );
-			pShader.setInput( 0, "vertexPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.TextureEffect", 2, 1, 0, 2, false );
+			pShader.setInput( 0, "depthTexture", VariableType.FLOAT2, VariableSemanticType.TEXCOORD0 );
+			pShader.setInput( 1, "noiseTexture", VariableType.FLOAT3, VariableSemanticType.NORMAL );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
-			pShader.setSampler( 0, "BaseSampler", SamplerType.CUBE );
-			pShader.setFilter( 0, filter );
-			pShader.setCoordinate( 0, 0, coord0 );
-			pShader.setCoordinate( 0, 1, coord1 );
+			pShader.setSampler( 0, "DepthMap", SamplerType.TYPE_2D );
+			pShader.setSampler( 1, "NoiseMap", SamplerType.TYPE_2D );
+			pShader.setBaseRegisters( msPRegisters );
 			pShader.setTextureUnits( msPTextureUnits );
 			pShader.setPrograms( msPPrograms );
 			
@@ -122,22 +127,16 @@ package zest3d.localeffects
 			var technique: VisualTechnique = new VisualTechnique();
 			technique.insertPass( pass );
 			
-			var visualEffect:VisualEffect = new VisualEffect();
-			visualEffect.insertTechnique( technique );
+			_visualEffect = new VisualEffect();
+			_visualEffect.insertTechnique( technique );
 			
-			super( visualEffect, 0 );
+			super( _visualEffect, 0 );
 			
 			setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );
+			
 			setPixelTextureByHandle( 0, 0, texture );
+			setPixelTextureByHandle( 0, 1, noise );
 			
-			var filterType: SamplerFilterType = visualEffect.getPixelShader( 0, 0 ).getFilter( 0 );
-			
-			if ( filterType != SamplerFilterType.NEAREST &&
-				 filterType != SamplerFilterType.LINEAR &&
-				 !texture.hasMipmaps )
-			{
-				texture.generateMipmaps();
-			}
 		}
 	}
 }

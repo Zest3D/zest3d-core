@@ -13,7 +13,7 @@ package zest3d.localeffects
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -94,7 +94,7 @@ package zest3d.localeffects
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.NormalEffect", 0, 1, 0, 0, false );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.NormalEffect", 0, 1, 0, 0, false );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			pShader.setBaseRegisters( msPRegisters );
 			pShader.setPrograms( msPPrograms );

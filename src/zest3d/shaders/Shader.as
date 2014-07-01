@@ -59,6 +59,8 @@ package zest3d.shaders
 		protected var _textureUnit: Array;
 		protected var _program: Array;
 		
+		protected var _isDisposed:Boolean;
+		
 		public static const msNullString: String = "";
 		
 		
@@ -185,6 +187,13 @@ package zest3d.shaders
 		public function dispose(): void
 		{
 			//TODO dispose of items
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function setInput( index: int, name: String, type: VariableType, semantic:VariableSemanticType ): void

@@ -21,6 +21,8 @@ package zest3d.shaders.states
 		
 		public var enabled: Boolean;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function WireState() 
 		{
 			enabled = false;
@@ -28,7 +30,12 @@ package zest3d.shaders.states
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

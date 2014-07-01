@@ -18,12 +18,12 @@ package zest3d.shaders
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class PixelShader extends Shader implements IDisposable 
+	public class FragmentShader extends Shader implements IDisposable 
 	{
 		
 		protected static var msProfile: PixelShaderProfileType = PixelShaderProfileType.AGAL_1_0;
 		
-		public function PixelShader( programName: String, numInputs: int, numOutputs: int, numConstants: int, numSamplers: int, profileOwner: Boolean ) 
+		public function FragmentShader( programName: String, numInputs: int, numOutputs: int, numConstants: int, numSamplers: int, profileOwner: Boolean ) 
 		{
 			super( programName, numInputs, numOutputs, numConstants, numSamplers, profileOwner );
 		}

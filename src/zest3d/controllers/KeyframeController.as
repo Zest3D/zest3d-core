@@ -45,6 +45,12 @@ package zest3d.controllers
 		protected var _sLastIndex: int;
 		protected var _cLastIndex: int;
 		
+		private var _trn: APoint = new APoint();
+		private var _rot: HMatrix = new HMatrix();
+		private var _scale: Number = 0;
+		private var _key: KeyInfo = new KeyInfo();
+		private var _quat: HQuaternion = new HQuaternion();
+		
 		public function KeyframeController( numCommonTimes: int, numTranslations: int, numRotations: int,
 									numScales: int, localTransform: Transform ) 
 		{
@@ -151,6 +157,16 @@ package zest3d.controllers
 			_rotationTimes = null;
 			_scaleTimes = null;
 			
+			_trn.dispose();
+			_rot.dispose();
+			_key.dispose();
+			_quat.dispose();
+			
+			_trn = null;
+			_rot = null;
+			_key = null;
+			_quat = null;
+			
 			super.dispose();
 		}
 		
@@ -222,77 +238,59 @@ package zest3d.controllers
 		
 		override public function update(applicationTime:Number):Boolean 
 		{
+			
 			//return super.update(application);
 			if ( !super.update( applicationTime ) )
 			{
 				return false;
 			}
 			
-			/*
 			var ctrlTime: Number = getControlTime( applicationTime );
-			var normTime: Number = 0;
-			var i0: int = 0;
-			var i1: int = 0;
-			*/
-			
-			//TODO prevent this rebuilding lots of complex objects each update!
-			var ctrlTime: Number = getControlTime( applicationTime );
-			var trn: APoint = new APoint();
-			var rot: HMatrix = new HMatrix();
-			var scale: Number = 0;
-			
-			var key: KeyInfo = new KeyInfo();
-			key.set( ctrlTime, _numCommonTimes, _commonTimes, _cLastIndex, 0, 0, 0 );
+			_key.set( ctrlTime, _numCommonTimes, _commonTimes, _cLastIndex, 0, 0, 0 );
 			
 			if ( _numCommonTimes > 0 )
 			{
-				getKeyInfo( key );
+				getKeyInfo( _key );
 				
 				if ( _numTranslations > 0 )
 				{
-					trn = getTranslate( key.normTime, key.i0, key.i1 );
-					_localTransform.translate = trn;
+					_localTransform.translate = getTranslate( _key.normTime, _key.i0, _key.i1 );;
 				}
 				
 				if ( _numRotations > 0 )
 				{
-					rot = getRotate( key.normTime, key.i0, key.i1 );
-					_localTransform.rotate = rot;
+					_localTransform.rotate = getRotate( _key.normTime, _key.i0, _key.i1 );
 				}
 				
 				if ( _numScales > 0 )
 				{
-					scale = getScale( key.normTime, key.i0, key.i1 );
-					_localTransform.uniformScale = scale;
+					_localTransform.uniformScale = getScale( _key.normTime, _key.i0, _key.i1 );
 				}
 			}
 			else
 			{
 				if ( _numTranslations > 0 )
 				{
-					key.set( ctrlTime, _numTranslations, _translationTimes, _tLastIndex, 0, 0, 0 );
-					getKeyInfo( key );
+					_key.set( ctrlTime, _numTranslations, _translationTimes, _tLastIndex, 0, 0, 0 );
+					getKeyInfo( _key );
 					
-					trn = getTranslate( key.normTime, key.i0, key.i1 );
-					_localTransform.translate = trn;
+					_localTransform.translate = getTranslate( _key.normTime, _key.i0, _key.i1 );;
 				}
 				
 				if ( _numRotations > 0 )
 				{
-					key.set( ctrlTime, _numRotations, _rotationTimes, _rLastIndex, 0, 0, 0 );
-					getKeyInfo( key );
+					_key.set( ctrlTime, _numRotations, _rotationTimes, _rLastIndex, 0, 0, 0 );
+					getKeyInfo( _key );
 					
-					rot = getRotate( key.normTime, key.i0, key.i1 );
-					_localTransform.rotate = rot;
+					_localTransform.rotate = getRotate( _key.normTime, _key.i0, _key.i1 );
 				}
 				
 				if ( _numScales > 0 )
 				{
-					key.set( ctrlTime, _numScales, _scaleTimes, _rLastIndex, 0, 0, 0 );
-					getKeyInfo( key );
+					_key.set( ctrlTime, _numScales, _scaleTimes, _rLastIndex, 0, 0, 0 );
+					getKeyInfo( _key );
 					
-					scale = getScale( key.normTime, key.i0, key.i1 );
-					_localTransform.uniformScale = scale;
+					_localTransform.uniformScale = getScale( _key.normTime, _key.i0, _key.i1 );;
 				}
 			}
 			var spatial: Spatial = _object as Spatial;
@@ -362,10 +360,8 @@ package zest3d.controllers
 		
 		protected function getRotate( normTime: Number, i0: int, i1: int ): HMatrix
 		{
-			// TODO stop creating multiple objects each frame
-			var q: HQuaternion = new HQuaternion().slerp( normTime, _rotations[ i0 ], _rotations[ i1 ] );
-			
-			return q.toRotationMatrix();
+			_quat.slerp( normTime, _rotations[ i0 ], _rotations[ i1 ] );
+			return _quat.toRotationMatrix();
 		}
 		
 		protected function getScale( normTime: Number, i0: int, i1: int ): Number

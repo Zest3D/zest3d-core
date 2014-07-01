@@ -8,14 +8,13 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import com.adobe.utils.extended.AGALMiniAssembler;
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DProgramType;
 	import flash.utils.ByteArray;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IVertexShader;
 	import zest3d.renderers.Renderer;
 	import zest3d.shaders.enum.VertexShaderProfileType;
@@ -26,19 +25,19 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALVertexShader extends AGALShader implements IVertexShader, IDisposable 
+	public class Stage3DVertexShader extends Stage3DShader implements IVertexShader, IDisposable 
 	{
 		
-		private var _renderer: AGALRenderer;
+		private var _renderer: Stage3DRenderer;
 		private var _context: Context3D;
 		private var _vertexShader: VertexShader;
 		
 		public static var program: ByteArray;
 		
 		
-		public function AGALVertexShader( renderer: Renderer, vShader: VertexShader ) 
+		public function Stage3DVertexShader( renderer: Renderer, vShader: VertexShader ) 
 		{
-			_renderer = renderer as AGALRenderer;
+			_renderer = renderer as Stage3DRenderer;
 			_context = _renderer.data.context;
 			
 			var programText: String = vShader.getProgram( VertexShader.profile.index );
@@ -81,7 +80,7 @@ package zest3d.renderers.agal.pdr
 				offset += numRegisters;
 			}
 			
-			var agalRenderer: AGALRenderer = renderer as AGALRenderer;
+			var agalRenderer: Stage3DRenderer = renderer as Stage3DRenderer;
 			
 			setSamplerState( renderer, vShader, profile, parameters, agalRenderer.data.maxVShaderImages, agalRenderer.data.currentSS, _context );
 		}
@@ -89,7 +88,7 @@ package zest3d.renderers.agal.pdr
 		public function disable( renderer: Renderer, vShader: VertexShader, parameters: ShaderParameters ): void
 		{
 			var profile: int = VertexShader.profile.index;
-			var agalRenderer:AGALRenderer = renderer as AGALRenderer;
+			var agalRenderer:Stage3DRenderer = renderer as Stage3DRenderer;
 			
 			disableTextures( renderer, vShader, profile, parameters, agalRenderer.data.maxVShaderImages );
 		}

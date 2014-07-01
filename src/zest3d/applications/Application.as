@@ -10,26 +10,35 @@
  */
 package zest3d.applications 
 {
+	import flash.display.Sprite;
 	import io.plugin.core.interfaces.IDisposable;
 	
 	/**
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class Application implements IDisposable 
+	public class Application extends Sprite implements IDisposable 
 	{
 		
 		public static const ZEST3D_PATH: String = "";
 		public static const PROJECT_PATH: String = "";
 		
+		private var _isDisposed:Boolean;
+		
 		public function Application() 
 		{
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

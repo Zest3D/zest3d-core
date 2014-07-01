@@ -8,24 +8,23 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
-{
+package zest3d.renderers.stage3d {
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DStencilAction;
 	import flash.display3D.Context3DTriangleFace;
 	import io.plugin.core.interfaces.IDisposable;
 	import zest3d.globaleffects.GlobalEffect;
-	import zest3d.renderers.agal.pdr.AGALIndexBuffer;
-	import zest3d.renderers.agal.pdr.AGALPixelShader;
-	import zest3d.renderers.agal.pdr.AGALRenderTarget;
-	import zest3d.renderers.agal.pdr.AGALTexture2D;
-	import zest3d.renderers.agal.pdr.AGALTexture3D;
-	import zest3d.renderers.agal.pdr.AGALTextureCube;
-	import zest3d.renderers.agal.pdr.AGALTextureRectangle;
-	import zest3d.renderers.agal.pdr.AGALVertexBuffer;
-	import zest3d.renderers.agal.pdr.AGALVertexFormat;
-	import zest3d.renderers.agal.pdr.AGALVertexShader;
+	import zest3d.renderers.stage3d.pdr.Stage3DIndexBuffer;
+	import zest3d.renderers.stage3d.pdr.Stage3DFragmentShader;
+	import zest3d.renderers.stage3d.pdr.Stage3DRenderTarget;
+	import zest3d.renderers.stage3d.pdr.Stage3DTexture2D;
+	import zest3d.renderers.stage3d.pdr.Stage3DTexture3D;
+	import zest3d.renderers.stage3d.pdr.Stage3DTextureCube;
+	import zest3d.renderers.stage3d.pdr.Stage3DTextureRectangle;
+	import zest3d.renderers.stage3d.pdr.Stage3DVertexBuffer;
+	import zest3d.renderers.stage3d.pdr.Stage3DVertexFormat;
+	import zest3d.renderers.stage3d.pdr.Stage3DVertexShader;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.TextureFormat;
 	import zest3d.resources.IndexBuffer;
@@ -44,18 +43,18 @@ package zest3d.renderers.agal
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALRenderer extends Renderer implements IDisposable 
+	public class Stage3DRenderer extends Renderer implements IDisposable 
 	{
 		
-		public function AGALRenderer( input: AGALRendererInput, width: int, height: int, colorFormat: TextureFormat, depthStencilFormat: TextureFormat, numMultiSamples: int ) 
+		public function Stage3DRenderer( input: Stage3DRendererInput, width: int, height: int, colorFormat: TextureFormat, depthStencilFormat: TextureFormat, numMultiSamples: int ) 
 		{			
-			super( GlobalEffect, AGALIndexBuffer, AGALPixelShader, AGALRenderTarget,
-				/*AGALTexture1D,*/ AGALTexture2D, AGALTexture3D, AGALTextureCube, AGALTextureRectangle,
-				AGALVertexBuffer, AGALVertexFormat, AGALVertexShader );
+			super( GlobalEffect, Stage3DIndexBuffer, Stage3DFragmentShader, Stage3DRenderTarget,
+				/*AGALTexture1D,*/ Stage3DTexture2D, Stage3DTexture3D, Stage3DTextureCube, Stage3DTextureRectangle,
+				Stage3DVertexBuffer, Stage3DVertexFormat, Stage3DVertexShader );
 			
 			_initialize( width, height, colorFormat, depthStencilFormat, numMultiSamples ); // sets and stores application properties
 			
-			_data = new AGALRendererData( input, width, height, colorFormat, depthStencilFormat, numMultiSamples );
+			_data = new Stage3DRendererData( input, width, height, colorFormat, depthStencilFormat, numMultiSamples );
 			
 			data.currentRS.initialize( _defaultAlphaState, _defaultCullState, _defaultDepthState,
 									   _defaultOffsetState, _defaultStencilState, _defaultWireState );
@@ -71,9 +70,9 @@ package zest3d.renderers.agal
 		}
 		
 		// helper method
-		public function get data(): AGALRendererData
+		public function get data(): Stage3DRendererData
 		{
-			return _data as AGALRendererData;
+			return _data as Stage3DRendererData;
 		}
 		
 		override public function set alphaState( alphaState:AlphaState):void 
@@ -89,8 +88,8 @@ package zest3d.renderers.agal
 			
 			if (  _alphaState.blendEnabled )
 			{
-				var srcBlend: String = AGALMapping.alphaSrcBlend[ _alphaState.srcBlend.index ];
-				var dstBlend: String = AGALMapping.alphaDstBlend[ _alphaState.dstBlend.index ];
+				var srcBlend: String = Stage3DMapping.alphaSrcBlend[ _alphaState.srcBlend.index ];
+				var dstBlend: String = Stage3DMapping.alphaDstBlend[ _alphaState.dstBlend.index ];
 				data.context.setBlendFactors( srcBlend, dstBlend );
 			}
 			else
@@ -100,7 +99,7 @@ package zest3d.renderers.agal
 			
 			if ( _alphaState.compareEnabled )
 			{
-				var compare: String = AGALMapping.alphaCompare[ _alphaState.compare.index ];
+				var compare: String = Stage3DMapping.alphaCompare[ _alphaState.compare.index ];
 				data.context.setDepthTest( true, compare );
 			}
 			else
@@ -152,7 +151,7 @@ package zest3d.renderers.agal
 			if ( _depthState.enabled )
 			{
 				var mask:Boolean = _depthState.writable;
-				var compare:String = AGALMapping.depthCompare[ _depthState.compare.index ];
+				var compare:String = Stage3DMapping.depthCompare[ _depthState.compare.index ];
 				data.context.setDepthTest( mask, compare );
 			}
 			else
@@ -179,10 +178,10 @@ package zest3d.renderers.agal
 			
 			if ( _stencilState.enabled )
 			{
-				var compare:String = AGALMapping.stencilCompare[ _stencilState.compare.index ];
-				var onZPass:String = AGALMapping.stencilOperation[ _stencilState.onZPass.index ];
-				var onZFail:String = AGALMapping.stencilOperation[ _stencilState.onZFail.index ];
-				var onFail:String = AGALMapping.stencilOperation[ _stencilState.onFail.index ];
+				var compare:String = Stage3DMapping.stencilCompare[ _stencilState.compare.index ];
+				var onZPass:String = Stage3DMapping.stencilOperation[ _stencilState.onZPass.index ];
+				var onZFail:String = Stage3DMapping.stencilOperation[ _stencilState.onZFail.index ];
+				var onFail:String = Stage3DMapping.stencilOperation[ _stencilState.onFail.index ];
 				
 				// TODO pass Context3DTriangleFace mapping
 				data.context.setStencilReferenceValue( _stencilState.reference, _stencilState.mask, _stencilState.writeMask );
@@ -318,7 +317,7 @@ package zest3d.renderers.agal
 				{
 					if ( iBuffer.elementSize == 2 )
 					{
-						var agalIBuffer: AGALIndexBuffer = getResourceIndexBuffer( iBuffer ) as AGALIndexBuffer;
+						var agalIBuffer: Stage3DIndexBuffer = getResourceIndexBuffer( iBuffer ) as Stage3DIndexBuffer;
 						data.context.drawTriangles( agalIBuffer.indexBuffer3D ); // TODO the offset an count
 					}
 					else

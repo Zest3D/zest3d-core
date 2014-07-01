@@ -25,12 +25,16 @@ package zest3d.scenegraph
 		public var diffuse: Color;
 		public var specular: Color;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function Material() 
 		{
 			emissive = new Color( 0, 0, 0, 1 );
 			ambient = new Color( 0, 0, 0, 1 );
 			diffuse = new Color( 0, 0, 0, 1 );
 			specular = new Color( 0, 0, 0, 0 );
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -46,6 +50,13 @@ package zest3d.scenegraph
 			
 			specular.dispose();
 			specular = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

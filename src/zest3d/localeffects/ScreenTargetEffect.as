@@ -17,7 +17,7 @@ package zest3d.localeffects
 	import zest3d.shaders.enum.SamplerType;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -103,7 +103,7 @@ package zest3d.localeffects
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.ScreenTargetEffect", 1, 1, 0, 1, false );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.ScreenTargetEffect", 1, 1, 0, 1, false );
 			pShader.setInput( 0, "vertexTCoord", VariableType.FLOAT2, VariableSemanticType.TEXCOORD0 );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			pShader.setSampler( 0, "BaseSampler", SamplerType.RECTANGLE );

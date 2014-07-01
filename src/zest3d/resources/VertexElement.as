@@ -27,6 +27,8 @@ package zest3d.resources
 		public var usage: AttributeUsageType;
 		public var usageIndex: uint;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function VertexElement() 
 		{
 			streamIndex = 0;
@@ -34,12 +36,20 @@ package zest3d.resources
 			type = AttributeType.NONE;
 			usage = AttributeUsageType.NONE;
 			usageIndex = 0;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			type = null;
 			usage = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

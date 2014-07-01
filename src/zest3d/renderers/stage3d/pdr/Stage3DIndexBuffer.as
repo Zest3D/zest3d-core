@@ -8,12 +8,11 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import flash.display3D.IndexBuffer3D;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IIndexBuffer;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferLockingType;
@@ -23,19 +22,21 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALIndexBuffer implements IIndexBuffer, IDisposable 
+	public class Stage3DIndexBuffer implements IIndexBuffer, IDisposable 
 	{
 		
-		private var _renderer: AGALRenderer;
+		private var _renderer: Stage3DRenderer;
 		private var _context: Context3D;
 		private var _indexBuffer: IndexBuffer;
 		
 		private var _indexBuffer3D: IndexBuffer3D;
 		
+		protected var _isDisposed:Boolean;
 		
-		public function AGALIndexBuffer( renderer: Renderer, iBuffer: IndexBuffer ) 
+		
+		public function Stage3DIndexBuffer( renderer: Renderer, iBuffer: IndexBuffer ) 
 		{
-			_renderer = renderer as AGALRenderer;
+			_renderer = renderer as Stage3DRenderer;
 			_context = _renderer.data.context;
 			
 			_indexBuffer = iBuffer;
@@ -43,11 +44,21 @@ package zest3d.renderers.agal.pdr
 			_indexBuffer3D = _context.createIndexBuffer( _indexBuffer.numElements );
 			
 			_indexBuffer3D.uploadFromByteArray( _indexBuffer.data, 0, 0, _indexBuffer.numElements );
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_indexBuffer3D.dispose();
+			_indexBuffer = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer ): void

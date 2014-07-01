@@ -10,21 +10,45 @@
  */
 package zest3d.controllers 
 {
+	import io.plugin.core.interfaces.IDisposable;
 	/**
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class KeyInfo 
+	public class KeyInfo implements IDisposable
 	{
-		public var ctrlTime: Number = 0;
-		public var numTimes: int = 0;
-		public var times: Array = [];
-		public var lastIndex: int = -1;
-		public var normTime: Number = 0;
-		public var i0: int = 0;
-		public var i1: int = 0;
+		public var ctrlTime: Number;
+		public var numTimes: int;
+		public var times: Array;
+		public var lastIndex: int;
+		public var normTime: Number;
+		public var i0: int;
+		public var i1: int;
 		
-		public function KeyInfo() { };
+		private var _isDisposed:Boolean;
+		
+		public function KeyInfo()
+		{
+			ctrlTime = 0;
+			numTimes = 0;
+			times = [];
+			lastIndex = -1;
+			normTime = 0;
+			i0 = 0;
+			i1 = 0;
+			
+			_isDisposed = false;
+		};
+		
+		
+		
+		public function dispose():void
+		{
+			times.length = 0;
+			times = [];
+			
+			_isDisposed = false;
+		}
 		
 		public function set( ctrlTime: Number, numTimes: int, times: Array, lastIndex: int, normTime: Number, i0: int, i1: int ): void
 		{
@@ -35,6 +59,11 @@ package zest3d.controllers
 			this.normTime = normTime;
 			this.i0 = i0;
 			this.i1 = i1;
+		}
+		
+		public function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 	}
 

@@ -42,6 +42,8 @@ package zest3d.datatypes
 		
 		private var _inverseNeedsUpdate: Boolean;
 		
+		protected var _isDisposed:Boolean;
+		
 		
 		public function Transform() 
 		{
@@ -56,6 +58,8 @@ package zest3d.datatypes
 			_isRSMatrix = true;
 			_isUniformScale = true;
 			_inverseNeedsUpdate = false;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -71,6 +75,13 @@ package zest3d.datatypes
 			_rotate = null;
 			_translate = null;
 			_scale = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function toIdentity(): void

@@ -36,10 +36,12 @@ package zest3d.controllers
 		}
 		
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
 			removeAllControllers();
 			_controllers = null;
+			
+			super.dispose();
 		}
 		
 		[Inline]
@@ -106,6 +108,7 @@ package zest3d.controllers
 		
 		public function updateControllers( applicationTime: Number ): Boolean
 		{
+			//trace( ">>>>> " + name );
 			var someoneUpdate: Boolean = false;
 			var i:int;
 			for ( i = 0; i < numControllers; ++i )

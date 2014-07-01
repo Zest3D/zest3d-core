@@ -8,19 +8,18 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
-{
+package zest3d.renderers.stage3d {
 	import flash.display3D.Context3D;
 	/**
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALRendererInput 
+	public class Stage3DRendererInput 
 	{
 		
 		protected var _context:Context3D;
 		
-		public function AGALRendererInput( context:Context3D ) 
+		public function Stage3DRendererInput( context:Context3D ) 
 		{
 			_context = context;
 		}

@@ -8,15 +8,15 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
+package zest3d.renderers.stage3d
 {
 	/**
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALSamplerState 
+	
+	public class Stage3DSamplerState 
 	{
-		
 		// internal use only
 		public var anisotropy: Number = 1;
 		
@@ -34,7 +34,7 @@ package zest3d.renderers.agal
 		// internal use only
 		public var wrap: Array = [ 0, 0, 0 ];
 		
-		public function AGALSamplerState() 
+		public function Stage3DSamplerState() 
 		{
 			// TODO implement setSamplerAt....
 			// trace( "* querying the current sampler state (not implemented)" );

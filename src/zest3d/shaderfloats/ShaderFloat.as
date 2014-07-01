@@ -27,16 +27,24 @@ package zest3d.shaderfloats
 		protected var _numElements: int;
 		protected var _data: ByteArray;
 		protected var _allowUpdater: Boolean;
+		protected var _isDisposed:Boolean;
 		
 		public function ShaderFloat( numRegisters: int ) 
 		{
 			_allowUpdater = false;
 			this.numRegisters = numRegisters;
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_data = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function set numRegisters( numRegisters: int ): void

@@ -63,6 +63,7 @@ package zest3d.resources
 		protected var _userField: Array;
 		
 		protected var _data: ByteArray;
+		protected var _isDisposed:Boolean;
 		
 		// TODO consider convertTo and convertFrom ... SLOW / possible?
 		
@@ -101,6 +102,7 @@ package zest3d.resources
 				_userField[ i ] = 0;
 			}
 			
+			_isDisposed = false;
 		}
 		
 		// TODO this is temporary for testing to be removed.
@@ -118,7 +120,14 @@ package zest3d.resources
 			_userField = null;
 			
 			_data = null;
+			_isDisposed = true;
 		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
+		}
+		
 		/*
 		private var _loadPath: String;
 		public function load( path: String ): void

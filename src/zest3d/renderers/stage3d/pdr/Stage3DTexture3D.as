@@ -8,8 +8,7 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import io.plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.interfaces.ITexture3D;
 	import zest3d.renderers.Renderer;
@@ -20,17 +19,25 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALTexture3D implements ITexture3D, IDisposable 
+	public class Stage3DTexture3D implements ITexture3D, IDisposable 
 	{
 		
-		public function AGALTexture3D( renderer: Renderer, texture: Texture3D ) 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DTexture3D( renderer: Renderer, texture: Texture3D ) 
 		{
 			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer, textureUnit: int ): void

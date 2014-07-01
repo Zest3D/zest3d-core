@@ -28,15 +28,25 @@ package zest3d.datatypes
 		private var _center: APoint;
 		private var _radius: Number;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function Bound() 
 		{
 			_center = APoint.ORIGIN;
 			_radius = 0;
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
+			_center.dispose();
 			_center = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function set( bound: Bound ): Bound

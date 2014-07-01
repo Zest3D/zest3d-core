@@ -49,9 +49,11 @@ package zest3d.resources
 			}
 		}
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
 			Renderer.unbindAllVertexFormat( this );
+			
+			super.dispose();
 		}
 		
 		

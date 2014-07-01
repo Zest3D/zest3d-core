@@ -52,7 +52,7 @@
 			}
 		}
 		
-		public function dispose(): void
+		override public function dispose(): void
 		{
 			var p: ShaderParameters;
 			for each( p in _vertexParameters )
@@ -72,6 +72,8 @@
 			_effect.dispose();
 			
 			_effect = null;
+			
+			super.dispose();
 		}
 		
 		[Inline]

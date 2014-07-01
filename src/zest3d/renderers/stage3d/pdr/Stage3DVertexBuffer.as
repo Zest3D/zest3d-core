@@ -8,12 +8,11 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import flash.display3D.VertexBuffer3D;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALRenderer;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IVertexBuffer;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferLockingType;
@@ -23,10 +22,10 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALVertexBuffer implements IVertexBuffer, IDisposable 
+	public class Stage3DVertexBuffer implements IVertexBuffer, IDisposable 
 	{
 		
-		private var _renderer: AGALRenderer
+		private var _renderer: Stage3DRenderer
 		private var _context: Context3D;
 		private var _vertexBuffer: VertexBuffer;
 		
@@ -34,9 +33,11 @@ package zest3d.renderers.agal.pdr
 		
 		public static var currentVBuffer: VertexBuffer3D;
 		
-		public function AGALVertexBuffer( renderer: Renderer, vBuffer: VertexBuffer ) 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DVertexBuffer( renderer: Renderer, vBuffer: VertexBuffer ) 
 		{
-			_renderer = renderer as AGALRenderer;
+			_renderer = renderer as Stage3DRenderer;
 			_context = _renderer.data.context;
 			
 			_vertexBuffer = vBuffer;
@@ -44,12 +45,19 @@ package zest3d.renderers.agal.pdr
 			_vertexBuffer3D = _context.createVertexBuffer( _vertexBuffer.numElements, _vertexBuffer.elementSize /  4 );
 			
 			_vertexBuffer3D.uploadFromByteArray( _vertexBuffer.data, 0, 0, _vertexBuffer.numElements );
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_vertexBuffer3D.dispose();
+			_vertexBuffer3D = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function enable( renderer: Renderer, vertexSize: uint, streamIndex: uint, offset: uint ): void

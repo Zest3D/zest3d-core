@@ -34,6 +34,8 @@ package zest3d.scenegraph
 		
 		private static const msInvalid: PickRecord = new PickRecord();
 		
+		protected var _isDisposed:Boolean;
+		
 		public var records: Vector.<PickRecord>
 		
 		public function Picker() 
@@ -44,6 +46,7 @@ package zest3d.scenegraph
 			_tMax = 0;
 			
 			records = new Vector.<PickRecord>();
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -53,6 +56,13 @@ package zest3d.scenegraph
 			
 			_direction.dispose();
 			_direction = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function execute( scene: Spatial, origin: APoint, direction: AVector, tMin: Number, tMax: Number ): void

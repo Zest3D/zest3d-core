@@ -61,6 +61,8 @@ package zest3d.resources
 		private var _tCoordSize: Array;
 		private var _colorSize: Array;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function VertexBufferAccessor( vFormat: VertexFormat, vBuffer: VertexBuffer ) 
 		{
 			
@@ -89,11 +91,20 @@ package zest3d.resources
 			}
 			
 			applyToData( vFormat, vBuffer );
+			
+			_isDisposed = true;
 		}
 		
 		public function dispose(): void
 		{
 			//TODO VertexBufferAccessor::dispose();
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function applyToData( vFormat: VertexFormat, vBuffer: VertexBuffer ): void

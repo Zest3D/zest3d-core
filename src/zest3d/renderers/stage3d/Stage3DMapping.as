@@ -8,8 +8,7 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
-{
+package zest3d.renderers.stage3d {
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DStencilAction;
@@ -19,10 +18,10 @@ package zest3d.renderers.agal
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALMapping 
+	public class Stage3DMapping 
 	{
 		
-		public function AGALMapping() 
+		public function Stage3DMapping() 
 		{
 			
 		}

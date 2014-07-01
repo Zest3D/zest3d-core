@@ -8,14 +8,13 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal 
-{
+package zest3d.renderers.stage3d {
 	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DTriangleFace;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALMapping;
+	import zest3d.renderers.stage3d.Stage3DMapping;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -27,7 +26,7 @@ package zest3d.renderers.agal
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALRenderState implements IDisposable 
+	public class Stage3DRenderState implements IDisposable 
 	{
 		// internal use only
 		
@@ -71,14 +70,23 @@ package zest3d.renderers.agal
 		
 		public var _context: Context3D;
 		
-		public function AGALRenderState( context: Context3D )
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DRenderState( context: Context3D )
 		{
 			_context = context;
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			_context = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		public function initialize( alphaState:AlphaState, cullState: CullState, depthState:DepthState,
@@ -86,10 +94,10 @@ package zest3d.renderers.agal
 		{
 			// alpha state
 			_alphaBlendEnabled = alphaState.blendEnabled;
-			_alphaSrcBlend = AGALMapping.alphaSrcBlend[ alphaState.srcBlend.index ];
-			_alphaDstBlend = AGALMapping.alphaDstBlend[ alphaState.dstBlend.index ];
+			_alphaSrcBlend = Stage3DMapping.alphaSrcBlend[ alphaState.srcBlend.index ];
+			_alphaDstBlend = Stage3DMapping.alphaDstBlend[ alphaState.dstBlend.index ];
 			_alphaCompareEnabled = alphaState.compareEnabled;
-			_compareFunction = AGALMapping.alphaCompare[ alphaState.compare.index ];
+			_compareFunction = Stage3DMapping.alphaCompare[ alphaState.compare.index ];
 			
 			_alphaReference = alphaState.reference;
 			_blendColor = alphaState.constantColor;
@@ -141,7 +149,7 @@ package zest3d.renderers.agal
 			// depth state
 			_depthEnabled = depthState.enabled;
 			_depthWriteEnabled = depthState.writable;
-			_depthCompareFunction = AGALMapping.depthCompare[ depthState.compare.index ];
+			_depthCompareFunction = Stage3DMapping.depthCompare[ depthState.compare.index ];
 			
 			//TODO investigate here depthstates
 			

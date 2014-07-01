@@ -22,9 +22,12 @@ package zest3d.scenegraph
 		
 		private var _visible: Vector.<Spatial>;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function VisibleSet() 
 		{
 			_visible = new Vector.<Spatial>();
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -33,9 +36,16 @@ package zest3d.scenegraph
 			{
 				d.dispose();
 			}
+			_visible.length = 0;
 			_visible = null;
+			
+			_isDisposed = true;
 		}
 		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
+		}
 		
 		[Inline]
 		public final function get numVisible(): int
@@ -64,12 +74,6 @@ package zest3d.scenegraph
 		[inline]
 		public final function clear(): void
 		{
-			/*
-			for each( var d:IDisposable in _visible )
-			{
-				d.dispose();
-			}
-			*/
 			_visible.length = 0;
 		}
 		

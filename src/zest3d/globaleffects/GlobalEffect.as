@@ -21,14 +21,21 @@ package zest3d.globaleffects
 	public class GlobalEffect implements IDisposable 
 	{
 		
+		protected var _isDisposed:Boolean;
+		
 		public function GlobalEffect() 
 		{
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		// virtual

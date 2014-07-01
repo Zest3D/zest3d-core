@@ -28,7 +28,7 @@ package zest3d.applications
 		protected var _width:int;
 		protected var _height:int;
 		
-		private var _clearColor: Color;
+		protected var _clearColor: Color;
 		
 		protected var _colorFormat: TextureFormat;
 		protected var _depthStencilFormat: TextureFormat;
@@ -44,7 +44,7 @@ package zest3d.applications
 		protected var _timer: int;
 		protected var _maxTimer: int;
 		
-		
+		protected var _isDisposed:Boolean;
 		
 		public function WindowApplication( clearColor: Color ) 
 		{
@@ -63,6 +63,21 @@ package zest3d.applications
 			_numMultisamples = 0;
 			
 			addEventListener( Event.ADDED_TO_STAGE, onAddedToStage );
+			
+			_isDisposed = false;
+		}
+		
+		public function dispose():void 
+		{
+			_clearColor.dispose();
+			_clearColor = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		protected function onAddedToStage( e: Event ): void
@@ -140,11 +155,6 @@ package zest3d.applications
 		public function onIdle(): void
 		{
 			// stub
-		}
-		
-		public function dispose():void 
-		{
-			
 		}
 		
 		protected function resetTime(): void

@@ -44,7 +44,6 @@ package zest3d.scenegraph
 		protected var _parent: Spatial;
 		
 		
-		
 		////////////////////////////////////////////////////////////////////////
 		// convenience API
 		////////////////////////////////////////////////////////////////////////
@@ -72,10 +71,20 @@ package zest3d.scenegraph
 			_scaleNeedsUpdate = true;
 		}
 		
+		public function get scaleX( ): Number
+		{
+			return _scale.x;
+		}
+		
 		public function set scaleX( value: Number ): void
 		{
 			_scale.x = value;
 			_scaleNeedsUpdate = true;
+		}
+		
+		public function get scaleY( ): Number
+		{
+			return _scale.y;
 		}
 		
 		public function set scaleY( value: Number ): void
@@ -84,11 +93,17 @@ package zest3d.scenegraph
 			_scaleNeedsUpdate = true;
 		}
 		
+		public function get scaleZ( ): Number
+		{
+			return _scale.z;
+		}
+		
 		public function set scaleZ( value: Number ): void
 		{
 			_scale.z = value;
 			_scaleNeedsUpdate = true;
 		}
+		
 		
 		public function scale( x: Number, y: Number, z: Number ): void
 		{
@@ -205,12 +220,12 @@ package zest3d.scenegraph
 		
 		public function Spatial() 
 		{
-			localTransform = new Transform();
+			localTransform = Transform.IDENTITY;
 			_scale = localTransform.scale;
 			_rotate = localTransform.rotate;
 			_translate = localTransform.translate;
 			
-			worldTransform = new Transform();
+			worldTransform = Transform.IDENTITY;
 			worldTransformIsCurrent = false;
 			
 			worldBound = new Bound();

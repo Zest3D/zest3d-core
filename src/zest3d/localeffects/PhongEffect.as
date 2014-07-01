@@ -24,7 +24,7 @@ package zest3d.localeffects
 	import zest3d.shaders.enum.SamplerType;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -144,7 +144,7 @@ package zest3d.localeffects
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.PhongEffect", 2, 1, 4, 1, false );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.PhongEffect", 2, 1, 4, 1, false );
 			pShader.setInput( 0, "modelTexCoords", VariableType.FLOAT2, VariableSemanticType.TEXCOORD0 );
 			pShader.setInput( 1, "vertexNormal", VariableType.FLOAT3, VariableSemanticType.NORMAL );
 			pShader.setConstant( 0, "Common", 1 );

@@ -26,17 +26,18 @@ package zest3d.shaders
 	{
 		
 		protected var _vShader: VertexShader;
-		protected var _pShader: PixelShader;
+		protected var _pShader: FragmentShader;
 		protected var _alphaState: AlphaState;
 		protected var _cullState: CullState;
 		protected var _depthState: DepthState;
 		protected var _offsetState: OffsetState;
 		protected var _stencilState: StencilState;
 		protected var _wireState: WireState;
+		protected var _isDisposed:Boolean;
 		
 		public function VisualPass() 
 		{
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -58,6 +59,13 @@ package zest3d.shaders
 			_offsetState = null;
 			_stencilState = null;
 			_wireState = null;
+			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		[Inline]
@@ -67,7 +75,7 @@ package zest3d.shaders
 		}
 		
 		[Inline]
-		public final function set pixelShader( pShader: PixelShader ): void
+		public final function set pixelShader( pShader: FragmentShader ): void
 		{
 			_pShader = pShader;
 		}
@@ -117,7 +125,7 @@ package zest3d.shaders
 		}
 		
 		[Inline]
-		public final function get pixelShader(): PixelShader
+		public final function get pixelShader(): FragmentShader
 		{
 			return _pShader;
 		}

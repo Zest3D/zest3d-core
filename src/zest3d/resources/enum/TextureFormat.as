@@ -27,6 +27,7 @@ package zest3d.resources.enum
 		public static const RGB888: TextureFormat = new TextureFormat( "RGB888", 11 );
 		public static const RGB565: TextureFormat = new TextureFormat( "RGB565", 12 );
 		public static const RGBA4444: TextureFormat = new TextureFormat( "RGBA4444", 13 );
+		public static const R16G16B16A16: TextureFormat = new TextureFormat( "R16G16B16A16", 13 );
 		
 		protected var _type: String;
 		protected var _index: int;

@@ -57,9 +57,8 @@ package zest3d.scenegraph
 			
 			child.parent = this;
 			
-			var numChild:int = numChildren;
 			_child.push( child );
-			return numChild;
+			return numChildren;
 		}
 		
 		public function removeChild( child: Spatial ): int

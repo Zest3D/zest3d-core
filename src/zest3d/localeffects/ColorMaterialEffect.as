@@ -16,7 +16,7 @@ package zest3d.localeffects
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.VariableSemanticType;
 	import zest3d.shaders.enum.VariableType;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;
@@ -33,7 +33,7 @@ package zest3d.localeffects
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class FlatMaterialEffect extends VisualEffectInstance implements IDisposable 
+	public class ColorMaterialEffect extends VisualEffectInstance implements IDisposable 
 	{
 		
 		public static const msAGALVRegisters: Array = [ 0 ];
@@ -70,9 +70,9 @@ package zest3d.localeffects
 			""
 		];
 		
-		public function FlatMaterialEffect( material: Material ) 
+		public function ColorMaterialEffect( material: Material ) 
 		{
-			var vShader: VertexShader = new VertexShader( "Zest3D.FlatMaterial", 1, 2, 2, 0, false );
+			var vShader: VertexShader = new VertexShader( "Zest3D.ColorMaterial", 1, 2, 2, 0, false );
 			vShader.setInput( 0, "modelPosition", VariableType.FLOAT3, VariableSemanticType.POSITION );
 			vShader.setOutput( 0, "clipPosition", VariableType.FLOAT4, VariableSemanticType.POSITION );
 			vShader.setOutput( 1, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
@@ -81,7 +81,7 @@ package zest3d.localeffects
 			vShader.setBaseRegisters( msVRegisters );
 			vShader.setPrograms( msVPrograms );
 			
-			var pShader: PixelShader = new PixelShader( "Zest3D.FlatMaterial", 1, 1, 0, 0, false );
+			var pShader: FragmentShader = new FragmentShader( "Zest3D.ColorMaterial", 1, 1, 0, 0, false );
 			pShader.setInput( 0, "vertexColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			pShader.setOutput( 0, "pixelColor", VariableType.FLOAT4, VariableSemanticType.COLOR0 );
 			pShader.setPrograms( msPPrograms );
@@ -106,12 +106,6 @@ package zest3d.localeffects
 			
 			setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );
 			setVertexConstantByHandle( 0, 1, new MaterialAmbientConstant( material ) );
-			/*
-			var ambient:ShaderFloat = new ShaderFloat(1);
-			ambient.setRegister( 0, [material.ambient.r, material.ambient.g, material.ambient.b, material.ambient.a ] );
-			
-			setVertexConstantByHandle( 0, 1, ambient );
-			*/
 		}
 		
 		override public function dispose():void 

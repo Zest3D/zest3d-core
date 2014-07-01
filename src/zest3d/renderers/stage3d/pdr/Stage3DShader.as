@@ -8,12 +8,11 @@
  * Distributed under the Boost Software License, Version 1.0.
  * http://www.boost.org/LICENSE_1_0.txt
  */
-package zest3d.renderers.agal.pdr 
-{
+package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import io.plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.agal.AGALMapping;
-	import zest3d.renderers.agal.AGALSamplerState;
+	import zest3d.renderers.stage3d.Stage3DMapping;
+	import zest3d.renderers.stage3d.Stage3DSamplerState;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.Texture2D;
 	import zest3d.resources.Texture3D;
@@ -27,17 +26,24 @@ package zest3d.renderers.agal.pdr
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class AGALShader implements IDisposable
+	public class Stage3DShader implements IDisposable
 	{
 		
-		public function AGALShader() 
+		protected var _isDisposed:Boolean;
+		
+		public function Stage3DShader() 
 		{
-			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 		protected function setSamplerState( renderer: Renderer, shader: Shader, profile: int,
@@ -52,10 +58,10 @@ package zest3d.renderers.agal.pdr
 			for ( var i: int = 0; i < numSamplers; ++i )
 			{
 				var type: SamplerType = shader.getSamplerType( i );
-				var target: String = AGALMapping.textureTarget[ type.index ]; // TODO map targets
+				var target: String = Stage3DMapping.textureTarget[ type.index ]; // TODO map targets
 				var textureUnit: int = shader.getTextureUnit( profile, i );
 				var texture: TextureBase = parameters.getTextureByHandle( i );
-				var current: AGALSamplerState = currentSS[ textureUnit ];
+				var current: Stage3DSamplerState = currentSS[ textureUnit ];
 				
 				//TODO context3D.setSamplerStateAt( textureUnit, Context3DWrapMode.CLAMP, Context3DTextureFilter.LINEAR, Context3DMipFilter.MIPLINEAR );
 				

@@ -18,6 +18,7 @@ package zest3d.controllers
 	import zest3d.resources.VertexBufferAccessor;
 	import zest3d.scenegraph.enum.UpdateType;
 	import zest3d.scenegraph.Node;
+	import zest3d.scenegraph.TriMesh;
 	import zest3d.scenegraph.Visual;
 	
 	/**
@@ -30,7 +31,7 @@ package zest3d.controllers
 		protected var _numVertices: int;
 		protected var _numBones: int;
 		
-		protected var _bones: Array; // Nodes
+		protected var _bones: Vector.<Node>; // Nodes
 		protected var _weights: Array;	// Number
 		protected var _offsets: Array; // APoint
 		
@@ -40,7 +41,7 @@ package zest3d.controllers
 			_numVertices = numVertices;
 			_numBones = numBones;
 			
-			_bones = [];
+			_bones = new Vector.<Node>( _numBones, true );
 			_weights = [];
 			_offsets = [];
 			
@@ -94,7 +95,7 @@ package zest3d.controllers
 		}
 		
 		[Inline]
-		public final function get bones(): Array
+		public final function get bones(): Vector.<Node>
 		{
 			return _bones;
 		}

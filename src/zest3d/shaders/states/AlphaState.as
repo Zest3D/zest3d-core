@@ -30,6 +30,8 @@ package zest3d.shaders.states
 		public var reference: Number;
 		public var constantColor: Array;
 		
+		protected var _isDisposed: Boolean;
+		
 		public function AlphaState() 
 		{
 			blendEnabled = false;
@@ -39,6 +41,8 @@ package zest3d.shaders.states
 			compare = CompareMode.ALWAYS;
 			reference = 0;
 			constantColor = [0, 0, 0, 0];
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
@@ -47,6 +51,12 @@ package zest3d.shaders.states
 			dstBlend = null;
 			compare = null;
 			constantColor = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

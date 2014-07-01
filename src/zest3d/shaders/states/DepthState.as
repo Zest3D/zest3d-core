@@ -23,16 +23,25 @@ package zest3d.shaders.states
 		public var writable: Boolean;
 		public var compare: CompareMode;
 		
+		protected var _isDisposed:Boolean;
+		
 		public function DepthState() 
 		{
 			enabled = true;
 			writable = true;
 			compare = CompareMode.LEQUAL;
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
 			compare = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean
+		{
+			return _isDisposed;
 		}
 		
 	}

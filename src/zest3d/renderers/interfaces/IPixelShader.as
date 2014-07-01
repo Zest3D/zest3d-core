@@ -11,7 +11,7 @@
 package zest3d.renderers.interfaces 
 {
 	import zest3d.renderers.Renderer;
-	import zest3d.shaders.PixelShader;
+	import zest3d.shaders.FragmentShader;
 	import zest3d.shaders.ShaderParameters;
 	
 	/**
@@ -20,8 +20,8 @@ package zest3d.renderers.interfaces
 	 */
 	public interface IPixelShader 
 	{
-		function enable( renderer: Renderer, pShader:PixelShader, parameters: ShaderParameters ): void;
-		function disable( renderer: Renderer, pShader: PixelShader, parameters: ShaderParameters ): void;
+		function enable( renderer: Renderer, pShader:FragmentShader, parameters: ShaderParameters ): void;
+		function disable( renderer: Renderer, pShader: FragmentShader, parameters: ShaderParameters ): void;
 	}
 	
 }
