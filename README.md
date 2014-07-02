@@ -1,4 +1,4 @@
-zest3d-core-fp11
+zest3d-core
 ===========
 
 Zest3D
