@@ -11,10 +11,10 @@
 package zest3d.controllers 
 {
 	import flash.utils.ByteArray;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.algebra.AVector;
-	import io.plugin.math.algebra.HMatrix;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.math.algebra.AVector;
+	import plugin.math.algebra.HMatrix;
 	import zest3d.scenegraph.Particles;
 	
 	/**

@@ -10,7 +10,7 @@
  */
 package zest3d.localeffects 
 {
-	import io.plugin.core.graphics.Color;
+	import plugin.core.graphics.Color;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaderfloats.ShaderFloat;
 	import zest3d.shaders.enum.VariableSemanticType;

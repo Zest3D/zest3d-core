@@ -10,10 +10,10 @@
  */
 package zest3d.terrain 
 {
-	import io.plugin.core.errors.IllegalArgumentError;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
+	import plugin.core.errors.IllegalArgumentError;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
 	import zest3d.resources.VertexFormat;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Node;

@@ -12,9 +12,9 @@ package zest3d.resources
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.base.BitHacks;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.math.base.BitHacks;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferUsageType;
 	import zest3d.resources.enum.TextureFormat;

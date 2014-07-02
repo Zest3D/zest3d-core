@@ -10,7 +10,7 @@
  */
 package zest3d.shaderfloats.light 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Light;
 	import zest3d.scenegraph.Visual;

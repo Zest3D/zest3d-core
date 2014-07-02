@@ -10,7 +10,7 @@
  */
 package zest3d.scenegraph 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.resources.IndexBuffer;
 	import zest3d.resources.VertexBuffer;
 	import zest3d.resources.VertexFormat;

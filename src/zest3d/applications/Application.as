@@ -11,7 +11,7 @@
 package zest3d.applications 
 {
 	import flash.display.Sprite;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	
 	/**
 	 * ...

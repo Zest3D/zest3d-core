@@ -10,10 +10,10 @@
  */
 package zest3d.resources 
 {
-	import io.plugin.core.errors.IndexOutOfBoundsError;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.core.system.object.PluginObject;
+	import plugin.core.errors.IndexOutOfBoundsError;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.core.system.object.PluginObject;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.AttributeType;
 	import zest3d.resources.enum.AttributeUsageType;

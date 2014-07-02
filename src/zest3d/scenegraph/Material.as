@@ -10,8 +10,8 @@
  */
 package zest3d.scenegraph 
 {
-	import io.plugin.core.graphics.Color;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.graphics.Color;
+	import plugin.core.interfaces.IDisposable;
 	
 	/**
 	 * ...

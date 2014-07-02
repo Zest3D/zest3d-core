@@ -10,8 +10,8 @@
  */
 package zest3d.shaderfloats.matrix 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.math.algebra.HMatrix;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.math.algebra.HMatrix;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Visual;
 	import zest3d.shaderfloats.ShaderFloat;

@@ -8,8 +8,8 @@ package zest3d.applications
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
-	import io.plugin.core.graphics.Color;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.graphics.Color;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.stage3d.Stage3DRendererInput;
 	import zest3d.scenegraph.Camera;

@@ -11,8 +11,8 @@
 package zest3d.detail 
 {
 	import flash.utils.ByteArray;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
 	import zest3d.renderers.Renderer;
 	import zest3d.scenegraph.Culler;
 	import zest3d.scenegraph.TriMesh;

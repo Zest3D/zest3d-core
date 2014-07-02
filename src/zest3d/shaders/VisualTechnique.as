@@ -10,8 +10,8 @@
  */
 package zest3d.shaders 
 {
-	import io.plugin.core.errors.IllegalArgumentError;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.errors.IllegalArgumentError;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.shaders.states.AlphaState;
 	import zest3d.shaders.states.CullState;
 	import zest3d.shaders.states.DepthState;

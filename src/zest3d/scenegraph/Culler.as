@@ -10,12 +10,12 @@
  */
 package zest3d.scenegraph 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
-	import io.plugin.math.algebra.HPlane;
-	import io.plugin.math.base.MathHelper;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
+	import plugin.math.algebra.HPlane;
+	import plugin.math.base.MathHelper;
 	import zest3d.datatypes.Bound;
 	
 	/**

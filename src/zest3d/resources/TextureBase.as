@@ -15,7 +15,7 @@ package zest3d.resources
 	import flash.events.EventDispatcher;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.resources.enum.BufferUsageType;
 	import zest3d.resources.enum.TextureFormat;
 	import zest3d.resources.enum.TextureType;

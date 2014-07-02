@@ -10,9 +10,9 @@
  */
 package zest3d.controllers 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.algebra.APoint;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.math.algebra.APoint;
 	import zest3d.datatypes.Transform;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.VertexBufferAccessor;

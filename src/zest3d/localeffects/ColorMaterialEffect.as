@@ -10,7 +10,7 @@
  */
 package zest3d.localeffects 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.scenegraph.Material;
 	import zest3d.shaderfloats.material.MaterialAmbientConstant;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;

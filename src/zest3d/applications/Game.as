@@ -1,8 +1,8 @@
 package zest3d.applications 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
 	import zest3d.scenegraph.Culler;
 	import zest3d.scenegraph.Node;
 	

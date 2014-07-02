@@ -16,8 +16,8 @@ package zest3d.renderers.stage3d.pdr {
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
 	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IRenderTarget;
 	import zest3d.renderers.Renderer;

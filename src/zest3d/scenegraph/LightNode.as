@@ -10,9 +10,9 @@
  */
 package zest3d.scenegraph 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.HMatrix;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.HMatrix;
 	
 	/**
 	 * ...

@@ -10,8 +10,8 @@
  */
 package zest3d.terrain 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
 	import zest3d.primitives.StandardMesh;
 	import zest3d.resources.VertexBufferAccessor;
 	import zest3d.resources.VertexFormat;

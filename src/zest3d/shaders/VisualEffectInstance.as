@@ -10,10 +10,10 @@
  */
  package zest3d.shaders 
 {
-	import io.plugin.core.errors.IllegalArgumentError;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.core.system.object.PluginObject;
+	import plugin.core.errors.IllegalArgumentError;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.core.system.object.PluginObject;
 	import zest3d.resources.TextureBase;
 	import zest3d.shaderfloats.ShaderFloat;
 	

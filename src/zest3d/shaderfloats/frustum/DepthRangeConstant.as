@@ -1,6 +1,6 @@
 package zest3d.shaderfloats.frustum 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Visual;
 	import zest3d.shaderfloats.ShaderFloat;

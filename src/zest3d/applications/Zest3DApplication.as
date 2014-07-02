@@ -16,10 +16,10 @@ package zest3d.applications
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 	import flash.utils.getTimer;
-	import io.plugin.core.graphics.Color;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
+	import plugin.core.graphics.Color;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
 	import zest3d.geometry.SkyboxGeometry;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Culler;

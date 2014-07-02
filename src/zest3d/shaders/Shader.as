@@ -10,9 +10,9 @@
  */
 package zest3d.shaders 
 {
-	import io.plugin.core.errors.IllegalArgumentError;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
+	import plugin.core.errors.IllegalArgumentError;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
 	import zest3d.shaders.enum.SamplerCoordinateType;
 	import zest3d.shaders.enum.SamplerFilterType;
 	import zest3d.shaders.enum.SamplerType;

@@ -10,7 +10,7 @@
  */
 package zest3d.shaders.states 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.shaders.enum.CompareMode;
 	import zest3d.shaders.enum.DstBlendMode;
 	import zest3d.shaders.enum.SrcBlendMode;

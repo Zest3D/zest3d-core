@@ -14,7 +14,7 @@ package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3DProgramType;
 	import flash.display3D.Program3D;
 	import flash.utils.ByteArray;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.IPixelShader;
 	import zest3d.renderers.Renderer;

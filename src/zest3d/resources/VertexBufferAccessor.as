@@ -11,7 +11,7 @@
 package zest3d.resources 
 {
 	import flash.utils.ByteArray;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.resources.enum.AttributeType;
 	import zest3d.resources.enum.AttributeUsageType;
 	import zest3d.scenegraph.Visual;

@@ -11,9 +11,9 @@
 package zest3d.scenegraph 
 {
 	import flash.utils.ByteArray;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
+	import plugin.core.system.Assert;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.IndexBuffer;
 	import zest3d.resources.VertexBuffer;

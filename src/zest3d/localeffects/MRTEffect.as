@@ -10,7 +10,7 @@
  */
 package zest3d.localeffects 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.resources.Texture2D;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.SamplerCoordinateType;

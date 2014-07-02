@@ -12,8 +12,8 @@ package zest3d.resources
 {
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.object.PluginObject;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.object.PluginObject;
 	import zest3d.resources.enum.BufferUsageType;
 	
 	/**

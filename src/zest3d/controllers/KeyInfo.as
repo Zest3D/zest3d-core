@@ -10,7 +10,7 @@
  */
 package zest3d.controllers 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	/**
 	 * ...
 	 * @author Gary Paluk

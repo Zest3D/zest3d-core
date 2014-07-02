@@ -10,8 +10,8 @@
  */
 package zest3d.scenegraph 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
 	import zest3d.resources.IndexBuffer;
 	import zest3d.resources.VertexBuffer;
 	import zest3d.resources.VertexFormat;

@@ -10,8 +10,8 @@
  */
 package zest3d.controllers 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.object.PluginObject;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.object.PluginObject;
 	import zest3d.controllers.enum.RepeatType;
 	/**
 	 * ...

@@ -9,7 +9,7 @@
  * http://www.boost.org/LICENSE_1_0.txt
  */
 package zest3d.renderers.stage3d.pdr {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.interfaces.ITexture3D;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferLockingType;

@@ -13,7 +13,7 @@ package zest3d.renderers.stage3d {
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DStencilAction;
 	import flash.display3D.Context3DTriangleFace;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.globaleffects.GlobalEffect;
 	import zest3d.renderers.stage3d.pdr.Stage3DIndexBuffer;
 	import zest3d.renderers.stage3d.pdr.Stage3DFragmentShader;

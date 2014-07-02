@@ -2,8 +2,8 @@ package zest3d.applications
 {
 	import flash.events.Event;
 	import flash.utils.getTimer;
-	import io.plugin.core.graphics.Color;
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.graphics.Color;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.TextureFormat;
 	

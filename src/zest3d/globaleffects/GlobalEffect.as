@@ -10,7 +10,7 @@
  */
 package zest3d.globaleffects 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.renderers.Renderer;
 	import zest3d.scenegraph.VisibleSet;
 	

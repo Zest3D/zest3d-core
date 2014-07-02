@@ -10,10 +10,10 @@
  */
 package zest3d.detail 
 {
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.Assert;
-	import io.plugin.math.algebra.APoint;
-	import io.plugin.math.algebra.AVector;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.Assert;
+	import plugin.math.algebra.APoint;
+	import plugin.math.algebra.AVector;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Culler;
 	

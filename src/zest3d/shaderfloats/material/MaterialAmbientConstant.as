@@ -10,7 +10,7 @@
  */
 package zest3d.shaderfloats.material 
 {
-	import io.plugin.core.interfaces.IDisposable;
+	import plugin.core.interfaces.IDisposable;
 	import zest3d.scenegraph.Camera;
 	import zest3d.scenegraph.Material;
 	import zest3d.scenegraph.Visual;

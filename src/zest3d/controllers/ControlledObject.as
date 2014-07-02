@@ -12,9 +12,9 @@ package zest3d.controllers
 {
 	
 	import flash.utils.getQualifiedClassName;
-	import io.plugin.core.errors.AbstractClassError;
-	import io.plugin.core.interfaces.IDisposable;
-	import io.plugin.core.system.object.PluginObject;
+	import plugin.core.errors.AbstractClassError;
+	import plugin.core.interfaces.IDisposable;
+	import plugin.core.system.object.PluginObject;
 	
 	/**
 	 * ...
