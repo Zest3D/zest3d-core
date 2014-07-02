@@ -175,9 +175,9 @@ package zest3d.resources
 		}
 		*/
 		
-		public static function fromByteArray( data:ByteArray ):Texture2D
+		public static function fromATFData( data:ByteArray ):Texture2D
 		{
-			return Texture.fromByteArray( data ) as Texture2D;
+			return Texture.fromATFData( data ) as Texture2D;
 		}
 	}
 

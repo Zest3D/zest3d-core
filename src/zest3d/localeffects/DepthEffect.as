@@ -81,7 +81,7 @@ package zest3d.localeffects
             "frc ft0 ft0 \n" +             //FT0 = [f(FT0),f(255*FT0), f((255^2)*FT0), f((255^3)*FT0)] where f(number) = number - floor(number)
             "mul ft1 ft0.yzww fc2 \n" +    //FT1 = [(f(255*FT0))/255.0, (f((255^2)*FT0))/255.0, (f((255^3)*FT0))/255.0, 0.0]
             "sub ft0 ft0 ft1 \n" +         //FT0 = [f(FT0) - ((f(255*FT0))/255.0), f(255*FT0) - ((f((255^2)*FT0))/255.0), f((255^2)*FT0) -  ((f((255^3)*FT0))/255.0), f((255^3)*FT0)]
-            "mov oc ft0 \n",
+            "mov oc ft0",
 			// AGAL_2_0
 			"",
 			"",

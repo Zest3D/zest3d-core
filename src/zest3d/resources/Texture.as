@@ -21,7 +21,7 @@ package zest3d.resources
 	public class Texture 
 	{
 		
-		public static function fromByteArray( data:ByteArray, type:String = null ):TextureBase
+		public static function fromATFData( data:ByteArray, type:String = null ):TextureBase
 		{
 			var reader:ATFReader = new ATFReader( data );
 			var format:TextureFormat;

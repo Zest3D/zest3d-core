@@ -105,9 +105,9 @@ package zest3d.resources
 			throw new Error( "TextureCube::computeNumLevelBytes() is currently unsupported" );
 		}
 		
-		public static function fromByteArray( data:ByteArray ):TextureCube
+		public static function fromATFData( data:ByteArray ):TextureCube
 		{
-			return Texture.fromByteArray( data ) as TextureCube;
+			return Texture.fromATFData( data ) as TextureCube;
 		}
 	}
 

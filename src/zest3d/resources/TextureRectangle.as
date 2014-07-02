@@ -134,9 +134,9 @@ package zest3d.resources
 			}
 		}
 		
-		public static function fromByteArray( data:ByteArray ):TextureRectangle
+		public static function fromATFData( data:ByteArray ):TextureRectangle
 		{
-			return Texture.fromByteArray( data ) as TextureRectangle;
+			return Texture.fromATFData( data ) as TextureRectangle;
 		}
 	}
 
