@@ -20,12 +20,12 @@ package zest3d.shaders.enum
 		public static const NONE: SamplerFilterType = new SamplerFilterType( "none", 0 );
 		public static const NEAREST: SamplerFilterType = new SamplerFilterType( "nearest", 1 );
 		public static const LINEAR: SamplerFilterType = new SamplerFilterType( "linear", 2 );
-		public static const NEAREST_NEAREST: SamplerFilterType = new SamplerFilterType( "nearestNearest", 3 );
-		public static const NEAREST_LINEAR: SamplerFilterType = new SamplerFilterType( "nearestLinear", 4 );
-		public static const LINEAR_NEAREST: SamplerFilterType = new SamplerFilterType( "linearNearest", 5 );
-		public static const LINEAR_LINEAR: SamplerFilterType = new SamplerFilterType( "linearLinear", 6 );
+		//public static const NEAREST_NEAREST: SamplerFilterType = new SamplerFilterType( "nearestNearest", 3 );
+		//public static const NEAREST_LINEAR: SamplerFilterType = new SamplerFilterType( "nearestLinear", 4 );
+		//public static const LINEAR_NEAREST: SamplerFilterType = new SamplerFilterType( "linearNearest", 5 );
+		//public static const LINEAR_LINEAR: SamplerFilterType = new SamplerFilterType( "linearLinear", 6 );
 		
-		public static const QUANTITY: int = 7;
+		public static const QUANTITY: int = 3;
 		
 		protected var _type: String;
 		protected var _index: int;
@@ -49,13 +49,13 @@ package zest3d.shaders.enum
 		{
 			return Vector.<SamplerFilterType>
 			([
-				NONE,
+				//NONE,
 				NEAREST,
-				LINEAR,
-				NEAREST_NEAREST,
-				NEAREST_LINEAR,
-				LINEAR_NEAREST,
-				LINEAR_LINEAR
+				LINEAR//,
+				//NEAREST_NEAREST,
+				//NEAREST_LINEAR,
+				//LINEAR_NEAREST,
+				//LINEAR_LINEAR
 			]);
 		}
 	}

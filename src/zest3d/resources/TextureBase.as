@@ -12,7 +12,12 @@ package zest3d.resources
 {
 	//import br.com.stimuli.loading.BulkLoader;
 	//import br.com.stimuli.loading.BulkProgressEvent;
+	import br.com.stimuli.loading.BulkLoader;
+	import br.com.stimuli.loading.BulkProgressEvent;
+	import flash.display.Bitmap;
+	import flash.events.ErrorEvent;
 	import flash.events.EventDispatcher;
+	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	import plugin.core.interfaces.IDisposable;
@@ -38,7 +43,8 @@ package zest3d.resources
 	public class TextureBase extends EventDispatcher implements IDisposable 
 	{
 		
-		//private var _loader: BulkLoader;
+		protected var _loader: BulkLoader;
+		protected var _loadPath: String;
 		
 		public static const MAX_USER_FIELDS: int = 8;
 		public static const MAX_MIPMAP_LEVELS: int = 16;
@@ -128,18 +134,17 @@ package zest3d.resources
 			return _isDisposed;
 		}
 		
-		/*
-		private var _loadPath: String;
 		public function load( path: String ): void
 		{
 			_loadPath = path;
 			
 			if ( !_loader )
 			{
-				_loader = new BulkLoader( _loadPath, 1, 1 );
+				_loader = new BulkLoader();
+				_loader.add( _loadPath, { type:'binary' } );
 				_loader.addEventListener( ErrorEvent.ERROR, errorHandler );
 				_loader.addEventListener( BulkLoader.PROGRESS, progressHandler );
-				_loader.addEventListener( BulkLoader.COMPLETE, completeHandler );
+				_loader.addEventListener( BulkLoader.COMPLETE, onTextureLoadComplete );
 			}
 			
 			_loader.add( path );
@@ -148,14 +153,9 @@ package zest3d.resources
 		
 		protected function onTextureLoadComplete( e: BulkProgressEvent ): void
 		{
-			var bitmap: Bitmap = BulkLoader( e.currentTarget ).getContent( _loadPath );
-			_data = bitmap.bitmapData.getPixels( new Rectangle( 0, 0, bitmap.width, bitmap.height ) );
-			_numTotalBytes = _data.length;
-			
+			trace( "The image has loaded" );
 			dispatchEvent(e.clone());
 		}
-		
-		
 		
 		private function errorHandler( e: ErrorEvent ): void
 		{
@@ -166,7 +166,6 @@ package zest3d.resources
 		{
 			dispatchEvent( e.clone() );
 		}
-		*/
 		
 		[Inline]
 		public final function get format(): TextureFormat

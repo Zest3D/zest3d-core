@@ -78,8 +78,8 @@ package zest3d.localeffects
 			"",
 			// AGAL_1_0
 			"mov ft0, v0 \n" +
-			"tex ft1, ft0, fs0 <2d,clamp,linear,miplinear,dxt1> \n" +
-			"mov oc, ft1",
+			"tex ft1, ft0, fs0 <2d,clamp,linear,rgba> \n" +
+			"mov oc, ft1.yxwz",
 			// AGAL_2_0
 			"",
 			"",

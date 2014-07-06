@@ -90,7 +90,7 @@ package zest3d.applications
 			stage.stage3Ds[ 0 ].removeEventListener(Event.CONTEXT3D_CREATE, onContext3DCreated );
 			
 			var stage3D: Stage3D = Stage3D( e.currentTarget );
-			stage3D.context3D.enableErrorChecking = false;
+			stage3D.context3D.enableErrorChecking = true;
 			
 			var rendererInput: Stage3DRendererInput = new Stage3DRendererInput( stage3D.context3D );
 			
