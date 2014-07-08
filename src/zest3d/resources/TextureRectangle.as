@@ -73,18 +73,20 @@ package zest3d.resources
 			var dim0: int = _dimension[0][0];
 			var dim1: int = _dimension[1][0];
 			var level: int;
+			var max0: int;
+			var max1: int;
 			_numTotalBytes = 0;
 			
 			if ( _format == TextureFormat.DXT1 )
 			{
 				for ( level = 0; level < _numLevels; ++level )
 				{
-					var max0: int = dim0 / 4;
+					max0 = dim0 / 4;
 					if ( max0 < 1 )
 					{
 						max0 = 1;
 					}
-					var max1: int = dim1 / 4;
+					max1 = dim1 / 4;
 					if ( max1 < 1 )
 					{
 						max1 = 1;
@@ -108,9 +110,20 @@ package zest3d.resources
 			}
 			else if ( _format == TextureFormat.DXT5 )
 			{
+				max0 = dim0 / 4;
+				if ( max0 < 1 )
+				{
+					max0 = 1;
+				}
+				max1 = dim1 / 4;
+				if ( max1 < 1 )
+				{
+					max1 = 1;
+				}
+				
 				for ( level = 0; level < _numLevels; ++level )
 				{
-					_numLevelBytes[ level ] = msPixelSize[ _format.index ] * dim0 * dim1;
+					_numLevelBytes[ level ] = 16 * max0 * max1;
 					_numTotalBytes += _numLevelBytes[ level ];
 					_dimension[0][level] = dim0;
 					_dimension[1][level] = dim1;
@@ -130,6 +143,26 @@ package zest3d.resources
 				for ( level = 0; level < _numLevels - 1; ++level )
 				{
 					_levelOffsets[level+1] = _levelOffsets[level] + _numLevelBytes[level];
+				}
+			}
+			else
+			{
+				for ( level = 0; level < _numLevels; ++level )
+				{
+					_numLevelBytes[ level ] = msPixelSize[ _format.index ] * dim0 * dim1;
+					_numTotalBytes += _numLevelBytes[ level ];
+					_dimension[0][level] = dim0;
+					_dimension[1][level] = dim1;
+					_dimension[2][level] = 1;
+					
+					if ( dim0 > 1 )
+					{
+						dim0 >>= 1;
+					}
+					if ( dim1 > 1 )
+					{
+						dim1 >>= 1;
+					}
 				}
 			}
 		}

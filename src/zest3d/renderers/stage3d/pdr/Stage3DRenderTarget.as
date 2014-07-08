@@ -9,10 +9,13 @@
  * http://www.boost.org/LICENSE_1_0.txt
  */
 package zest3d.renderers.stage3d.pdr {
+	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display3D.Context3D;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.textures.RectangleTexture;
 	import flash.display3D.textures.Texture;
+	import flash.display3D.textures.TextureBase;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
@@ -51,17 +54,24 @@ package zest3d.renderers.stage3d.pdr {
 		
 		private var _renderTarget:RenderTarget;
 		
-		private var bitmapData:BitmapData;
+		private var _context:Context3D;
 		
 		protected var _isDisposed:Boolean;
+		
+		/*
+		[Embed(source = "../../../../../../../Flash Projects/Zest3D AS3 Harness/bin/assets/textures/texture.png")]
+		private const UVTexture:Class;
+		*/
 		
 		public function Stage3DRenderTarget( renderer: Stage3DRenderer, renderTarget: RenderTarget ) 
 		{
 			_renderTarget = renderTarget;
 			_renderer = renderer;
+			_context = _renderer.data.context;
+			
 			
 			_numTargets = renderTarget.numTargets;
-			Assert.isTrue( _numTargets > 0, "Number of render targets must be at least 1." );
+			Assert.isTrue( _numTargets > 0, "Number of render targets must be at least one." );
 			
 			_width = renderTarget.width;
 			_height = renderTarget.height;
@@ -69,65 +79,40 @@ package zest3d.renderers.stage3d.pdr {
 			_hasMipmaps = renderTarget.hasMipmaps;
 			_hasDepthStencil = renderTarget.hasDepthStencil;
 			
-			// create framebuffers (necessary with Stage3D??) < basically bitmaps or at least data e.g. ByteArrays
+			
+			_prevViewport = [] //4 int
+			_prevViewport[0] = 0;
+			_prevViewport[1] = 0;
+			_prevViewport[2] = 0;
+			_prevViewport[3] = 0;
+			_prevDepthRange = [] //2 Number
+			_prevDepthRange[0] = 0;
+			_prevDepthRange[1] = 0;
+			
+			// TODO Once viewports and depth ranges are complete in renderer
+			renderer.getViewport();
+			renderer.getDepthRange();
+			
+			// TODO create framebuffers (necessary with Stage3D??) < basically bitmaps or at least data e.g. ByteArrays
 			
 			// previous bound texture
 			// TODO var previousBind:Texture 
 			_colorTextures = new Vector.<RectangleTexture>( _numTargets );
 			_drawBuffers = new Vector.<RectangleTexture>( _numTargets );
 			
-			
 			// color buffers
 			for ( var i:int = 0; i < _numTargets; ++i )
 			{
+				var colorTexture:TextureRectangle = renderTarget.getColorTextureAt(i);
+				Assert.isTrue( !renderer.inTextureRectangleMap(colorTexture), "Texture should not yet exist." );
 				
-				// TODO some targets can be packed etc
+				var ogColorTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( renderer, colorTexture );
+				renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
+				
+				//_colorTextures[i] = ogColorTexture.texture;
+				
 				_colorTextures[ i ] = renderer.data.context.createRectangleTexture( _width, _height, Context3DTextureFormat.BGRA, true );
 				_drawBuffers[ i ] = renderer.data.context.createRectangleTexture( _width, _height, Context3DTextureFormat.BGRA, true );
-				
-				
-				
-				var colorTexture:TextureRectangle = renderTarget.getColorTextureAt( i );
-				
-				
-				/////// temporary - empty bitmap data ///////////////
-				//var bitmap:Bitmap = new UVTexture() as Bitmap;
-				//bitmapData = bitmap.bitmapData;
-				
-				//var byteArray:ByteArray = new ByteArray();
-				//bitmapData.copyPixelsToByteArray( new Rectangle( 0, 0, 800, 600 ), byteArray );
-				
-				//colorTexture.data = byteArray;
-				/////////////////////////
-				
-				Assert.isTrue( !renderer.inTextureRectangleMap( colorTexture ), "Texture shouldn't exist." );
-				var ogColorTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( renderer, colorTexture );
-				
-				
-				renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
-				_colorTextures[i] = ogColorTexture.texture;
-				
-				
-				// _renderer.data.context.setTextureAt( i, _colorTextures[ i ] ); // set and make available to the MRTEffect
-				
-				// set the sampler accordingly
-				if ( _hasMipmaps )
-				{
-					
-					/*
-					 * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					 * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-					 */
-				}
-				else
-				{
-					/*
-					 * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-					 * glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-					 */
-				}
-				
-				_isDisposed = false;
 			}
 			
 			// depth stencil buffer
@@ -139,14 +124,22 @@ package zest3d.renderers.stage3d.pdr {
 				var ogDepthStencilTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( renderer, depthStencilTexture );
 				renderer.insertInTextureRectangleMap( depthStencilTexture, ogDepthStencilTexture );
 				_depthStencilTexture = ogDepthStencilTexture.texture;
-				
 			}
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			// TODO AGALRenderTarget:dispose();
-			
+			var texture:RectangleTexture;
+			for each( texture in _colorTextures )
+			{
+				texture.dispose();
+			}
+			for each( texture in _depthStencilTexture )
+			{
+				texture.dispose();
+			}
 			_isDisposed = true;
 		}
 		
@@ -157,36 +150,23 @@ package zest3d.renderers.stage3d.pdr {
 		
 		public function enable( renderer: Renderer ): void
 		{
-			_renderer.data.context.clear( 1, 0, 0, 1 );
-			
+			// TODO temporarily set the target to the 0 indexed color texture
+			_context.setTextureAt( 0, _renderTarget.getColorTextureAt( 0 ) as TextureBase );
+			_renderer.data.context.setRenderToTexture( _renderTarget.getColorTextureAt( 0 ) as TextureBase );
 		}
 		
-		//private var bitmapData:BitmapData = new BitmapData( 1024, 1024, true, 0x00000000 );
 		public function disable( renderer: Renderer ): void
 		{
-			
-			/*
 			_renderer.data.context.setRenderToTexture( _renderTarget.getColorTextureAt( 0 ) as TextureBase );
+			_context.setTextureAt( 0, null );
 			_renderer.data.context.setRenderToBackBuffer();
-			*/
-			_renderer.data.context.drawToBitmapData( bitmapData );
-			
-			for ( var i:int = 0; i < _numTargets; ++i )
-			{
-				var colorTexture:TextureRectangle = _renderTarget.getColorTextureAt( i );
-				var byteArray:ByteArray = new ByteArray();
-				byteArray.endian = Endian.LITTLE_ENDIAN;
-				bitmapData.copyPixelsToByteArray( new Rectangle( 0, 0, 800, 600 ), byteArray );
-				colorTexture.data = byteArray;
-				
-				var ogColorTexture:Stage3DTextureRectangle = new Stage3DTextureRectangle( _renderer, colorTexture );
-				renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
-				_colorTextures[i] = ogColorTexture.texture;
-			}
 		}
 		
 		public function readColor( i: int, renderer: Renderer, texture: Texture2D ): void
 		{
+			//TODO render texture to a bitmap and return the ByteArray
+			trace( "WARNING>>>>>>>>>>>>> readColor not yet implemented" );
+			/*
 			if ( i < 0 || i >= _numTargets )
 			{
 				Assert.isTrue( false, "Invalid number of targets." );
@@ -212,7 +192,7 @@ package zest3d.renderers.stage3d.pdr {
 			
 			// TODO read buffer here
 			// TODO read data here
-			/*
+			
 			var colorTexture:TextureRectangle = _renderTarget.getColorTextureAt( i );
 			var byteArray:ByteArray = new ByteArray();
 			byteArray.endian = Endian.LITTLE_ENDIAN;
@@ -223,8 +203,9 @@ package zest3d.renderers.stage3d.pdr {
 			var ogColorTexture:AGALTextureRectangle = new AGALTextureRectangle( _renderer, colorTexture );
 			renderer.insertInTextureRectangleMap( colorTexture, ogColorTexture );
 			_colorTextures[i] = ogColorTexture.texture;
-			*/
+			
 			disable( renderer );
+			*/
 		}
 	}
 }

@@ -17,6 +17,7 @@ package zest3d.renderers.stage3d.pdr {
 	import zest3d.renderers.interfaces.ITextureRectangle;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferLockingType;
+	import zest3d.resources.enum.BufferUsageType;
 	import zest3d.resources.enum.TextureFormat;
 	import zest3d.resources.TextureRectangle;
 	
@@ -30,6 +31,7 @@ package zest3d.renderers.stage3d.pdr {
 		private var _renderer: Stage3DRenderer;
 		private var _texture: TextureRectangle;
 		private var _textureFormat: TextureFormat;
+		private var _textureUsage:BufferUsageType;
 		private var _context: Context3D;
 		private var _gpuTexture: RectangleTexture;
 		
@@ -42,23 +44,28 @@ package zest3d.renderers.stage3d.pdr {
 			
 			_texture = texture;
 			_textureFormat = texture.format;
+			_textureUsage = texture.usage;
 			
 			var format: String = Stage3DMapping.textureFormat[ _textureFormat.index ];
 			
 			//TODO pass a param for optimize RTT
 			_gpuTexture = _context.createRectangleTexture( _texture.width, _texture.height, format, false );
 			
+			
+			if ( _textureUsage == BufferUsageType.RENDERTARGET )
+			{
+				return;
+			}
+			
 			switch( _textureFormat )
 			{
-				/*
 				case TextureFormat.DXT1:
 				case TextureFormat.DXT5:
 				case TextureFormat.ETC1:
 				case TextureFormat.PVRTC:
 				case TextureFormat.RGBA:
-						_gpuTexture.uploadCompressedTextureFromByteArray( _texture.data, 0 );
+						throw new Error( "TextureRectangles cannot be compressed data." );
 					break;
-				*/
 				case TextureFormat.RGBA8888:
 				case TextureFormat.RGB888:
 				case TextureFormat.RGB565:

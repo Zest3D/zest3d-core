@@ -133,18 +133,20 @@ package zest3d.resources
 			var dim0: int = _dimension[0][0];
 			var dim1: int = _dimension[1][0];
 			var level: int;
+			var max0: int;
+			var max1: int;
 			_numTotalBytes = 0;
 			
 			if ( _format == TextureFormat.DXT1 )
 			{
 				for ( level = 0; level < _numLevels; ++level )
 				{
-					var max0: int = dim0 / 4;
+					max0 = dim0 / 4;
 					if ( max0 < 1 )
 					{
 						max0 = 1;
 					}
-					var max1: int = dim1 / 4;
+					max1 = dim1 / 4;
 					if ( max1 < 1 )
 					{
 						max1 = 1;
@@ -168,6 +170,16 @@ package zest3d.resources
 			}
 			else if ( _format == TextureFormat.DXT5 )
 			{
+				max0 = dim0 / 4;
+				if ( max0 < 1 )
+				{
+					max0 = 1;
+				}
+				max1 = dim1 / 4;
+				if ( max1 < 1 )
+				{
+					max1 = 1;
+				}
 				for ( level = 0; level < _numLevels; ++level )
 				{
 					_numLevelBytes[ level ] = 16 * max0 * max1;

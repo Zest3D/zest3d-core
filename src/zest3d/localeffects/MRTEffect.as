@@ -12,6 +12,7 @@ package zest3d.localeffects
 {
 	import plugin.core.interfaces.IDisposable;
 	import zest3d.resources.Texture2D;
+	import zest3d.resources.TextureRectangle;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaders.enum.SamplerCoordinateType;
 	import zest3d.shaders.enum.SamplerFilterType;
@@ -26,7 +27,7 @@ package zest3d.localeffects
 	public class MRTEffect extends VisualEffect implements IDisposable
 	{
 		
-		public function MRTEffect( texture0:Texture2D, texture1:Texture2D ) 
+		public function MRTEffect( texture0:TextureRectangle, texture1:TextureRectangle ) 
 		{
 			var instance:VisualEffectInstance = new VisualEffectInstance( this, 0 );
 			instance.setVertexConstantByHandle( 0, 0, new PVWMatrixConstant() );

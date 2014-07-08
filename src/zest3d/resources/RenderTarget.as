@@ -25,19 +25,19 @@ package zest3d.resources
 	{
 		
 		protected var _numTargets: int;
-		protected var _colorTextures: Array;
+		protected var _colorTextures: Vector.<TextureRectangle>; //TODO maybe convert back to Array? Vector for dev completion
 		protected var _depthStencilTexture: TextureRectangle;
 		protected var _hasMipmaps: Boolean;
 		
 		public function RenderTarget( numTargets: int, tFormat: TextureFormat, width: int,
-				height: int, hasMipmaps: Boolean, hasDepthStencil: Boolean ) 
+									  height: int, hasMipmaps: Boolean, hasDepthStencil: Boolean )
 		{
 			_numTargets = numTargets;
 			_hasMipmaps = hasMipmaps;
 			
 			Assert.isTrue( _numTargets > 0 );
 			
-			_colorTextures = [];
+			_colorTextures = new Vector.<TextureRectangle>( _numTargets, true );
 			
 			var i: int = 0;
 			for ( i = 0; i < _numTargets; ++i )
@@ -47,6 +47,7 @@ package zest3d.resources
 			
 			if ( hasDepthStencil )
 			{
+				//TODO depthstencil as RGBA8888 ?? Should we consider others?
 				_depthStencilTexture = new TextureRectangle( TextureFormat.RGBA8888, width, height, BufferUsageType.DEPTHSTENCIL );
 			}
 		}
