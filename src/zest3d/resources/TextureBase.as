@@ -1,6 +1,6 @@
 /**
  * Plugin.IO - http://www.plugin.io
- * Copyright (c) 2013
+ * Copyright (c) 2013-2014
  *
  * Geometric Tools, LLC
  * Copyright (c) 1998-2012
@@ -10,8 +10,6 @@
  */
 package zest3d.resources 
 {
-	//import br.com.stimuli.loading.BulkLoader;
-	//import br.com.stimuli.loading.BulkProgressEvent;
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
 	import flash.display.Bitmap;
@@ -25,7 +23,6 @@ package zest3d.resources
 	import zest3d.resources.enum.TextureFormat;
 	import zest3d.resources.enum.TextureType;
 	
-	/*
 	/// @eventType	br.com.stimuli.loading.BulkProgressEvent
 	[Event(name = "progress", type = "br.com.stimuli.loading.BulkProgressEvent")]
 	
@@ -34,7 +31,6 @@ package zest3d.resources
 	
 	/// @eventType	flash.events.ErrorEvent
 	[Event(name = "error", type = "flash.events.ErrorEvent")]
-	*/
 	
 	/**
 	 * ...
@@ -50,10 +46,8 @@ package zest3d.resources
 		public static const MAX_MIPMAP_LEVELS: int = 16;
 		
 		public static const msNumDimensions: Array = [ 2, 3, 2 ];
-		public static const msPixelSize: Array = [ 24, 32, 24, 24, 24, null, null, null, null, null, 32, 24, 16, 16 ]; //TODO check the last 3 pixel depths againa Adobes specs
+		public static const msPixelSize: Array = [ 24, 32, 24, 24, 24, null, null, null, null, null, 32, 24, 16, 16 ]; //TODO check the last 3 pixel depths against Adobes specs
 		public static const msMipmapable: Array = [ false, false, false, false, false, null, null, null, null, null, true, true, true, true, true ];
-		
-		
 		
 		protected var _format: TextureFormat;
 		protected var _type: TextureType;
@@ -125,6 +119,14 @@ package zest3d.resources
 			_levelOffsets = null;
 			_userField = null;
 			
+			if ( _loader )
+			{
+				_loader.removeEventListener( ErrorEvent.ERROR, errorHandler );
+				_loader.removeEventListener( BulkLoader.PROGRESS, progressHandler );
+				_loader.removeEventListener( BulkLoader.COMPLETE, onTextureLoadComplete );
+				_loader = null;
+			}
+			
 			_data = null;
 			_isDisposed = true;
 		}
@@ -141,19 +143,17 @@ package zest3d.resources
 			if ( !_loader )
 			{
 				_loader = new BulkLoader();
-				_loader.add( _loadPath, { type:'binary' } );
+				
 				_loader.addEventListener( ErrorEvent.ERROR, errorHandler );
 				_loader.addEventListener( BulkLoader.PROGRESS, progressHandler );
 				_loader.addEventListener( BulkLoader.COMPLETE, onTextureLoadComplete );
 			}
-			
-			_loader.add( path );
+			_loader.add( _loadPath, { type:'binary' } );
 			_loader.start();
 		}
 		
 		protected function onTextureLoadComplete( e: BulkProgressEvent ): void
 		{
-			trace( "The image has loaded" );
 			dispatchEvent(e.clone());
 		}
 		
@@ -236,9 +236,9 @@ package zest3d.resources
 		[Inline]
 		public final function get isCompressed(): Boolean
 		{
-			return ( _format == TextureFormat.DXT1 ||
-					 _format == TextureFormat.DXT5 ||
-					 _format == TextureFormat.ETC1 ||
+			return ( _format == TextureFormat.DXT1  ||
+					 _format == TextureFormat.DXT5  ||
+					 _format == TextureFormat.ETC1  ||
 					 _format == TextureFormat.PVRTC ||
 					 _format == TextureFormat.RGBA );
 		}

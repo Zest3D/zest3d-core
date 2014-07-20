@@ -10,12 +10,15 @@
  */
 package zest3d.resources 
 {
-	//import br.com.stimuli.loading.BulkProgressEvent;
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
 	import cmodule.zaail.CLibInit;
 	import flash.display.Bitmap;
+	import flash.events.Event;
 	import flash.geom.Rectangle;
+	import flash.system.MessageChannel;
+	import flash.system.Worker;
+	import flash.system.WorkerDomain;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
 	import plugin.core.interfaces.IDisposable;
@@ -66,6 +69,8 @@ package zest3d.resources
 			_data = new ByteArray();
 			_data.endian = Endian.LITTLE_ENDIAN;
 			_data.length = _numTotalBytes;
+			
+			initWorker();
 		}
 		
 		override public function dispose():void 
@@ -226,38 +231,67 @@ package zest3d.resources
 			}
 		}
 		
+		
+		// TODO move to base class / abstraction
+		[Embed(source="../../../../zest3d-examples/src/plugin/examples/worker/ImageWorker.swf", mimeType="application/octet-stream")]
+		private var WorkerSWF:Class;
+		
+		private static var _worker:Worker;
+		private var _input:ByteArray = new ByteArray();
+		private var _output:ByteArray = new ByteArray();
+		private var _bm:MessageChannel;
+		private var _mb:MessageChannel;
+		
+		protected function initWorker():void
+		{
+			if ( !_worker )
+			{
+				_worker = WorkerDomain.current.createWorker(new WorkerSWF());
+				_bm = _worker.createMessageChannel( Worker.current );
+				_mb = Worker.current.createMessageChannel( _worker );
+				
+				_worker.setSharedProperty( "btm", _bm );
+				_worker.setSharedProperty( "mtb", _mb );
+				
+				_bm.addEventListener( Event.CHANNEL_MESSAGE, onImageProcessingComplete );
+				_worker.start();
+				
+				_input = _bm.receive(true);
+				_output = _bm.receive(true);
+			}
+		}
+		
 		override protected function onTextureLoadComplete(e:BulkProgressEvent):void 
 		{
-			var loader:CLibInit = new CLibInit();
-			var lib:Object = loader.init();
+			_input.length = 0;
+			_input.writeBytes( BulkLoader( e.currentTarget ).getContent( _loadPath ) );
 			
-			var fileContents:ByteArray = BulkLoader( e.currentTarget ).getContent( _loadPath );
-			fileContents.endian = Endian.BIG_ENDIAN
-			
-			var output:ByteArray = new ByteArray();
-			loader.supplyFile(_loadPath, fileContents);
-			
-			lib.ilInit();
-			lib.ilOriginFunc(ZaaILInterface.IL_ORIGIN_UPPER_LEFT);
-			lib.ilEnable(ZaaILInterface.IL_ORIGIN_SET);
-			
-			if(lib.ilLoadImage(_loadPath) != 1)
-			{
-				trace("Could not load the selected image", "Error Loading Image");
-			}
-			
-			var width:int = lib.ilGetInteger(ZaaILInterface.IL_IMAGE_WIDTH);
-			var height:int = lib.ilGetInteger(ZaaILInterface.IL_IMAGE_HEIGHT);
-			var depth:int = lib.ilGetInteger(ZaaILInterface.IL_IMAGE_DEPTH);
-			lib.ilGetPixels(0, 0, 0, width, height, depth, output);
-			
-			_data = output;
-			
-			_dimension[ 0 ][ 0 ] = width;
-			_dimension[ 1 ][ 0 ] = height;
+			_mb.send( "IMAGE READY" );
+			//_mb.send( _loadPath );
 			
 			super.onTextureLoadComplete(e);
-			Renderer.updateAllTexture2D( this, 0 ); //TODO this is currently hardcoded until we load via mipmaps levels
+		}
+		
+		private function onImageProcessingComplete(e:Event):void
+		{
+			if ( _bm.messageAvailable )
+			{
+				var header:String = _bm.receive();
+				//var id:String = _bm.receive();
+				
+				if( header == "COMPLETE" )
+				{
+					if ( _bm.messageAvailable )
+					{
+						_dimension[ 0 ][ 0 ] = _bm.receive();
+						_dimension[ 1 ][ 0 ] = _bm.receive();
+						
+						_data = _output;
+						//TODO this is currently hardcoded until we load via mipmaps levels
+						Renderer.updateAllTexture2D( this, 0 );
+					}
+				}
+			}
 		}
 		
 		public static function fromATFData( data:ByteArray ):Texture2D
