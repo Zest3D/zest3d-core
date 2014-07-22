@@ -27,8 +27,12 @@ package zest3d.detail
 		public var numIndices: int;
 		public var indices: Array;
 		
+		private var _isDisposed:Boolean;
+		
 		public function CollapseRecord( vKeep: int = -1, vThrow: int = -1, numVertices: int = 0, numTriangles: int = 0 ) 
 		{
+			_isDisposed = false;
+			
 			this.vKeep = vKeep;
 			this.vThrow = vThrow;
 			this.numVertices = numVertices;
@@ -42,6 +46,12 @@ package zest3d.detail
 		{
 			indices.length = 0;
 			indices = null;
+			_isDisposed = true;
+		}
+		
+		public function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 		
 	}

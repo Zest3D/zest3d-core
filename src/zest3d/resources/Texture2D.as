@@ -12,10 +12,7 @@ package zest3d.resources
 {
 	import br.com.stimuli.loading.BulkLoader;
 	import br.com.stimuli.loading.BulkProgressEvent;
-	import cmodule.zaail.CLibInit;
-	import flash.display.Bitmap;
 	import flash.events.Event;
-	import flash.geom.Rectangle;
 	import flash.system.MessageChannel;
 	import flash.system.Worker;
 	import flash.system.WorkerDomain;
@@ -23,7 +20,6 @@ package zest3d.resources
 	import flash.utils.Endian;
 	import plugin.core.interfaces.IDisposable;
 	import plugin.core.system.Assert;
-	import plugin.image.zaail.ZaaILInterface;
 	import plugin.math.base.BitHacks;
 	import zest3d.renderers.Renderer;
 	import zest3d.resources.enum.BufferUsageType;

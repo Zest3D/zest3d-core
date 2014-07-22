@@ -1,16 +1,7 @@
 package zest3d.localeffects
 {
-	import zest3d.resources.Texture;
 	import zest3d.resources.Texture2D;
-	import zest3d.scenegraph.Light;
-	import zest3d.shaderfloats.camera.CameraModelPositionConstant;
-	import zest3d.shaderfloats.light.LightModelPositionConstant;
-	import zest3d.shaderfloats.matrix.PMatrixConstant;
-	import zest3d.shaderfloats.matrix.PVMatrixConstant;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
-	import zest3d.shaderfloats.matrix.VWMatrixConstant;
-	import zest3d.shaderfloats.matrix.WMatrixConstant;
-	import zest3d.shaderfloats.ShaderFloat;
 	import zest3d.shaders.enum.SamplerCoordinateType;
 	import zest3d.shaders.enum.SamplerFilterType;
 	import zest3d.shaders.enum.SamplerType;

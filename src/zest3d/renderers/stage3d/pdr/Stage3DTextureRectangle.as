@@ -12,10 +12,10 @@ package zest3d.renderers.stage3d.pdr {
 	import flash.display3D.Context3D;
 	import flash.display3D.textures.RectangleTexture;
 	import plugin.core.interfaces.IDisposable;
-	import zest3d.renderers.stage3d.Stage3DMapping;
-	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.renderers.interfaces.ITextureRectangle;
 	import zest3d.renderers.Renderer;
+	import zest3d.renderers.stage3d.Stage3DMapping;
+	import zest3d.renderers.stage3d.Stage3DRenderer;
 	import zest3d.resources.enum.BufferLockingType;
 	import zest3d.resources.enum.BufferUsageType;
 	import zest3d.resources.enum.TextureFormat;
@@ -50,7 +50,6 @@ package zest3d.renderers.stage3d.pdr {
 			
 			//TODO pass a param for optimize RTT
 			_gpuTexture = _context.createRectangleTexture( _texture.width, _texture.height, format, false );
-			
 			
 			if ( _textureUsage == BufferUsageType.RENDERTARGET )
 			{

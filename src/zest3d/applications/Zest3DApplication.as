@@ -14,7 +14,6 @@ package zest3d.applications
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.text.TextField;
 	import flash.utils.getTimer;
 	import plugin.core.graphics.Color;
 	import plugin.core.interfaces.IDisposable;
@@ -25,8 +24,6 @@ package zest3d.applications
 	import zest3d.scenegraph.Culler;
 	import zest3d.scenegraph.Node;
 	import zest3d.scenegraph.Picker;
-	import zest3d.scenegraph.PickRecord;
-	import zest3d.scenegraph.Spatial;
 	
 	/**
 	 * ...

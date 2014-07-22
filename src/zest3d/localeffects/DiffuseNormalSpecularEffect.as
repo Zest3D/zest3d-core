@@ -13,13 +13,10 @@ package zest3d.localeffects
 	import zest3d.resources.Texture2D;
 	import zest3d.scenegraph.Light;
 	import zest3d.shaderfloats.camera.CameraModelPositionConstant;
-	import zest3d.shaderfloats.camera.CameraWorldPositionConstant;
 	import zest3d.shaderfloats.light.LightAmbientConstant;
-	import zest3d.shaderfloats.light.LightDiffuseConstant;
 	import zest3d.shaderfloats.light.LightModelPositionConstant;
 	import zest3d.shaderfloats.light.LightSpecularConstant;
 	import zest3d.shaderfloats.light.LightSpecularExponentConstant;
-	import zest3d.shaderfloats.light.LightWorldPositionConstant;
 	import zest3d.shaderfloats.matrix.PVWMatrixConstant;
 	import zest3d.shaderfloats.ShaderFloat;
 	import zest3d.shaders.enum.SamplerCoordinateType;

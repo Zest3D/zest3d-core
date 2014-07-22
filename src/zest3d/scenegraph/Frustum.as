@@ -26,6 +26,8 @@ package zest3d.scenegraph
 		protected var _rMin: Number;
 		protected var _rMax: Number;
 		
+		private var _isDisposed:Boolean;
+		
 		public function Frustum( dMin: Number, dMax: Number, uMin: Number, uMax:Number, rMin: Number, rMax: Number ) 
 		{
 			_dMin = dMin;
@@ -34,11 +36,13 @@ package zest3d.scenegraph
 			_uMax = uMax;
 			_rMin = rMin;
 			_rMax = rMax;
+			
+			_isDisposed = false;
 		}
 		
 		public function dispose(): void
 		{
-			
+			_isDisposed  = true;
 		}
 		
 		[Inline]
@@ -75,6 +79,11 @@ package zest3d.scenegraph
 		public final function get rMax():Number 
 		{
 			return _rMax;
+		}
+		
+		public function get isDisposed():Boolean 
+		{
+			return _isDisposed;
 		}
 		
 	}

@@ -9,14 +9,11 @@
  * http://www.boost.org/LICENSE_1_0.txt
  */
 package zest3d.renderers.stage3d {
-	import flash.display3D.Context3D;
 	import flash.display3D.Context3DBlendFactor;
 	import flash.display3D.Context3DCompareMode;
 	import flash.display3D.Context3DStencilAction;
 	import flash.display3D.Context3DTextureFormat;
 	import flash.display3D.Context3DVertexBufferFormat;
-	import flash.display3D.textures.TextureBase;
-	import zest3d.shaders.enum.SamplerType;
 	/**
 	 * ...
 	 * @author Gary Paluk

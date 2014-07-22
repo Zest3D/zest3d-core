@@ -10,7 +10,6 @@
  */
 package zest3d.scenegraph 
 {
-	import plugin.core.interfaces.IDisposable;
 	
 	/**
 	 * ...
