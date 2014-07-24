@@ -266,7 +266,6 @@ package zest3d.scenegraph
 				localTransform.translate = _translate;
 				_translateNeedsUpdate = false;
 			}
-			
 			updateWorldData( applicationTime );
 			updateWorldBound();
 			if ( initiator )

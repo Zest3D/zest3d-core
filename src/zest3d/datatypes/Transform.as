@@ -10,6 +10,7 @@
  */
 package zest3d.datatypes 
 {
+	import plugin.core.interfaces.ICloneable;
 	import plugin.core.interfaces.IDisposable;
 	import plugin.core.system.Assert;
 	import plugin.math.algebra.APoint;
@@ -20,7 +21,7 @@ package zest3d.datatypes
 	 * ...
 	 * @author Gary Paluk
 	 */
-	public class Transform implements IDisposable 
+	public class Transform implements ICloneable, IDisposable
 	{
 		
 		[Inline]
@@ -60,6 +61,22 @@ package zest3d.datatypes
 			_inverseNeedsUpdate = false;
 			
 			_isDisposed = false;
+		}
+		
+		public function clone():*
+		{
+			var transform:Transform = new Transform();
+			transform._hMatrix = _hMatrix.clone();
+			transform._invHMatrix = _invHMatrix.clone();
+			transform._rotate = _rotate.clone();
+			transform._translate = _translate.clone();
+			transform._scale = _scale.clone();
+			transform._isIdentity = _isIdentity;
+			transform._isRSMatrix = _isRSMatrix;
+			transform._isUniformScale = _isUniformScale;
+			transform._inverseNeedsUpdate = _inverseNeedsUpdate;
+			transform._isDisposed = _isDisposed;
+			return transform;
 		}
 		
 		public function dispose(): void

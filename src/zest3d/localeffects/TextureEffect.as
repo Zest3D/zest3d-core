@@ -78,7 +78,7 @@ package zest3d.localeffects
 			"",
 			// AGAL_1_0
 			"mov ft0, v0 \n" +
-			"tex ft1, ft0, fs0 <2d,clamp,nearest,miplinear,dxt1> \n" +
+			"tex ft1, ft0, fs0 <2d,clamp,linear,miplinear,dxt1> \n" +
 			"mov oc, ft1",
 			// AGAL_2_0
 			"",

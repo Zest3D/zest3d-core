@@ -108,7 +108,6 @@ package zest3d.controllers
 		
 		public function updateControllers( applicationTime: Number ): Boolean
 		{
-			//trace( ">>>>> " + name );
 			var someoneUpdate: Boolean = false;
 			var i:int;
 			for ( i = 0; i < numControllers; ++i )

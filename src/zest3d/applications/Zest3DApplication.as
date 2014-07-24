@@ -132,7 +132,7 @@ package zest3d.applications
 		{
 			measureTime();
 			
-			var appTime: Number = getTimer();
+			var appTime: Number = getTimer() * .001;
 			update( appTime );
 			
 			if ( moveCamera() || moveObject() )
@@ -148,7 +148,7 @@ package zest3d.applications
 			
 			if ( moveObject() )
 			{
-				_scene.update( 0, true );
+				_scene.update( appTime, true );
 			}
 			
 			draw( appTime );

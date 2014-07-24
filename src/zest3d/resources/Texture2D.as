@@ -63,10 +63,42 @@ package zest3d.resources
 			
 			computeNumLevelBytes();
 			_data = new ByteArray();
-			_data.endian = Endian.LITTLE_ENDIAN;
+			_data.endian = Endian.BIG_ENDIAN;
 			_data.length = _numTotalBytes;
 			
 			initWorker();
+		}
+		
+		//TODO temporary for testing
+		public function clear():void
+		{
+			_dimension[ 0 ][ 0 ] = 64;
+			_dimension[ 1 ][ 0 ] = 64;
+			
+			var logDim0: uint = BitHacks.logOfPowerTwoUint( uint( 64 ) );
+			var logDim1: uint = BitHacks.logOfPowerTwoUint( uint( 64 ) );
+			
+			var maxLevels: int = int( ( logDim0 > - logDim1 ? logDim0 + 1 : logDim1 + 1 ) );
+			
+			if ( numLevels == 0)
+			{
+				_numLevels = maxLevels;
+			}
+			else if ( numLevels <= maxLevels )
+			{
+				_numLevels = numLevels;
+			}
+			else
+			{
+				throw new Error( "Invalid number of levels." );
+			}
+			
+			computeNumLevelBytes();
+			_data = new ByteArray();
+			_data.endian = Endian.LITTLE_ENDIAN;
+			_data.length = _numTotalBytes;
+			
+			Renderer.updateAllTexture2D( this, 0 );
 		}
 		
 		override public function dispose():void 
